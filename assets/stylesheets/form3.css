@@ -1,0 +1,155 @@
+.form {
+   margin-left: 5px;
+   margin-right: 5px;
+   padding: 5px 0 5px 0;
+/*   border: 1px dashed #d0d030;*/
+}
+
+.form_item{
+   border: 0px dashed #303030;
+   padding : 2px 15px;
+   display:compact;
+   overflow:hidden;
+}
+
+
+
+
+.form_item .form_label {
+   float: left;
+   width: 60%;
+   border: 0px dashed red;
+}
+
+.form_item .error ul li {
+   color: red;
+   font-size: xx-small;
+   margin: -5px 0 -5px 0 ;
+   list-style-type: circle;
+}
+.form_item .error ul  {
+   text-align: left;
+   margin: 1em 0 0 2em ;
+}
+
+
+/*.form_item .form_value {
+   text-align: right;
+   border: 1px dashed green;
+}*/
+
+
+/* dates and datetims*/
+.fields_container .form_item {
+   display: inline;
+   padding: 0;
+
+}
+
+
+
+
+.form_group  {
+   width: 100%;
+   margin: 5px 3px 30px 3px;
+   padding: 0 10px 0 10px;
+/*   border-style: solid;
+   border-color:#e0e0d0;
+   border-width: 0px 1px 1px 1px;  */
+
+
+}
+
+
+.form_group .form_title {
+   font-weight: bold;
+   background-color: #e0e0e0;
+   padding-left: 10px;
+}
+
+
+
+.buttons {
+   text-align:center;
+   border: 0px solid #c0c0c0;
+}
+
+.buttons .form_button {
+   display: inline;
+}
+
+.form_button .form_label {
+   padding: 0px;
+   display:inline;
+}
+.form_button .img_container {
+   display:inline;
+}
+
+
+.datetime  .fields_container div {
+
+  display: inline;
+   padding : 0px 0px;
+}
+
+
+
+.operation_box .step_displayer {
+
+    float:right;
+    margin: 0 8em 1em 0;
+
+}
+
+
+
+.operation_box .title {
+    font-size:x-large;
+    font-weight:bold;
+    margin: 0 0em 1em 4em;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+.form_actiongroup  {
+   margin: 0px;
+   padding: 0 3px 0 3px;
+}
+
+
+
+
+
+.form_actiongroup table td:first-child {
+   width: 10px;
+   border-left: 1px solid #c0c0c0;
+}
+
+.form_actiongroup table td {
+   width: 10px;
+   border-right: 1px solid #c0c0c0;
+}
+
+
+
+
+
+
+
+
+
+
+table.form_group  .even {
+   background-color: #e8e8e8;
+}
+

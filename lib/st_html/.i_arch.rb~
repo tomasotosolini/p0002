@@ -1,0 +1,25 @@
+ 
+
+
+module St::Graphs::IArch
+	
+	attr( :vertex1, true )
+	attr( :vertex2, true )
+	attr( :arch_id, true )
+	attr( :arch_name, true )
+
+	def connects?(v1,v2)
+		return connected_to?(v1) && connected_to?(v2) 
+	end
+
+	def connected_to?(v)
+		if ( v == nil ) then return false end
+		return ((self.vertex1 != nil) && (v.vertex_id==self.vertex1.vertex_id)) || ((self.vertex2 != nil) && (v.vertex_id==self.vertex2.vertex_id))
+	end
+	def other_extreme(v)
+		if ( v == nil ) then return false end
+		return (self.vertex1 != nil) && (v.vertex_id==self.vertex1.vertex_id) ? self.vertex2 : self.vertex1
+	end
+
+
+end

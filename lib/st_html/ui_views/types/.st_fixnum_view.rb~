@@ -1,0 +1,28 @@
+###########################################################################
+#    Copyright (C) 2007 by Tomaso Tosolini e Stefano Salvador                                      
+#    <tomaso.tosolini@cbm.fvg.it, stefano.salvador@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+
+class StFixnumView < St::Html::UiViews::AbstractView
+
+
+	def initialize(*_options)
+		super( {
+			:prefix => "",
+			:empty_nil => false,
+			:new_line => false,
+		}.merge( St::Html::Support::Util.extract_variable_options(_options) ) )
+
+	end
+
+
+	def render(x)
+		return  (x.nil? ? (@options[:empty_nil] ? "" : "nil") : @options[:prefix].to_s + x.to_s ) + (@options[:new_line] ? "\n" : "")
+	end
+end
+
+

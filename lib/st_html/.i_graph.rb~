@@ -1,0 +1,112 @@
+ 
+# nota per gestire i sotto grafi si procede come dalla definizione :
+# dato il grafo G = ( V,E ), G' = (V', E') e' un sottografo se
+# V' e' contentuto in V e E' e' contenuto in E, quindi si procede descrivendo 
+# prima G e poi G'
+
+require 'st/graphs/i_vertex'
+require 'st/graphs/i_arch'
+
+
+module St::Graphs::IGraph
+	
+	attr(:vertices, true)
+	attr(:archs, true)
+	
+
+
+
+	def vertex(id)
+		self.vertices.each do |v|
+			if (v.vertex_id == id) then return v end
+		end
+	end
+
+	def arch(id)
+		self.archs.each do |a|
+			if (a.arch_id == id) then return a end
+		end
+	end
+
+
+
+	def add_vertex(v)
+		self.vertices.each do |i|
+			if (i.vertex_id == v.vertex_id) then 
+				raise(St::Graphs::GraphException.new('vertex already present', self, 'Exception'))
+			end
+		end
+		self.vertices<<( v )
+		return v
+	end
+	def add_vertex_connected_to(v, c)
+		self.add_vertex( v )
+		self.connect( v,c )
+	end
+
+	def remove_vertex(v)
+		self.vertices.each do |i|
+			if (i.vertex_id == v.vertex_id) then 
+				self.remove_archs_connected_to( i )
+				self.vertices.remove( i	)
+				return i
+			end
+		end
+		raise(St::Graphs::GraphException.new('vertex not found', self, 'Exception'))
+	end
+
+	def connect(v1, v2)
+		raise(St::Graphs::GraphException.new('method not defined(connect)', self, 'Exception'))
+	end
+
+
+	def disconnect(v1, v2)
+		if ( self.are_connected?(v1,v2) ) then 
+			self.archs.remove( self.get_connector(v1,v2) )
+		end
+		raise(St::Graphs::GraphException.new('arch not found', self, 'Exception'))
+	end
+
+	def are_connected?(v1,v2)
+		self.archs.each do |i|
+			if ( i.connects?(v1,v2) ) then 
+				return true
+			end
+		end
+		return false
+	end
+	def get_connector(v1,v2)
+		self.archs.each do |i|
+			if ( i.connects?(v1,v2) ) then 
+				return i
+			end
+		end
+		raise(St::Graphs::GraphException.new('vertices not connected', self, 'Exception'))
+	end
+
+
+	def get_adiacent(v)
+		rv = []
+		self.archs.each do |a|
+			if (a.connected_to(v)) then 
+				rv.push( a.other_extreme(v) )
+			end
+		end
+		return rv
+	end
+
+
+
+	private
+
+	def remove_archs_connected_to(v)
+		self.archs.each do |a|
+			if a.connected_to?(v) then 
+				self.archs.remove( a )
+			end
+		end
+	end
+	
+	
+end
+

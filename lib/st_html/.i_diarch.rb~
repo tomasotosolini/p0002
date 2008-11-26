@@ -1,0 +1,38 @@
+
+require 'st/graphs'
+
+
+module St::Graphs::IDiarch
+
+	include St::Graphs::IArch
+
+	def origin
+		self.vertex1
+	end
+
+	def origin=(o)
+		self.vertex1= o
+	end
+
+	def destination
+		self.vertex2
+	end
+
+
+	def destination=(d)
+		self.vertex2= d
+	end
+
+
+	def exits_from?(v)
+		if ( v == nil ) then return false end
+		return (self.origin!=nil) && (v.vertex_id==self.origin.vertex_id) 
+	end
+	def enters_to?(v)
+		if ( v == nil ) then return false end
+		return (self.destination!=nil) && (v.vertex_id==self.destination.vertex_id) 
+	end
+
+
+
+end

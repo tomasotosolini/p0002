@@ -1,0 +1,27 @@
+###########################################################################
+#    Copyright (C) 2007 by Tomaso Tosolini, Stefano Salvador                                      
+#    <tomaso.tosolini@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+
+class StDatetimeView < St::Html::UiViews::AbstractView
+
+	DEFAULT_FORMAT = "%d/%m/%Y %H:%M:%S"
+
+	def render(x)
+		return nil if x.nil? || !x.is_a?(Time)
+		if self.options.has_key?(:format)
+			begin
+				return sprintf(self.options[:format], x) + "\n"
+			rescue Exception => e
+				return x.strftime(DEFAULT_FORMAT) + "\n"
+			end
+		else
+			return x.strftime(DEFAULT_FORMAT) + "\n"
+		end
+	end
+
+end

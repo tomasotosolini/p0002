@@ -1,0 +1,125 @@
+###########################################################################
+#    Copyright (C) 2007 by Stefano Salvador, Tomaso Tosolini                                      
+#    <stefano.salvador@cbm.fvg.it, tomaso.tosolini@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+module St::Html::Support::FormExtension
+	
+	def operation_mode
+		@operation_mode = :fast unless defined?( @operation_mode )
+		return @operation_mode
+	end
+	def operation_mode=( x )
+		@operation_mode = x
+	end
+
+
+	def render_operation_result(exit_status="unknown", details=nil, delay=2, background=false)
+
+		delay = 1 if @operation_mode.eql?(:fast)
+
+		if ["success", "failure", "canceled", "aborted"].include?(exit_status) 
+			s = "<div class=\"operation_exit_status #{exit_status}\">#{l("html_form_opeation_exit_status_#{exit_status}".to_sym)}</div>#{ details ? "<div class=\"operation_exit_status  details\">#{details}</div>" : ""}"
+		else
+			s = l(:html_form_opeation_exit_status_undefined)
+		end
+		controller = self
+		render(:update) do |page|
+			controller.clear_operation_status(page)
+			page.replace_html( "operation_box_canvas", s )
+			page.delay(delay) do 
+				controller.reset_background(page) if background
+				if @operation_mode.eql?(:fast)
+					page.hide("operation_box")
+				else
+					page.visual_effect(:fade, "operation_box")
+				end
+				page.replace_html( "operation_box_canvas", "" )
+			end
+		end
+	end
+
+
+	def set_background_for_operations(page)
+		if @operation_mode.eql?(:fast)
+			page.show( "sbiancant" )
+			page.show( "opacizator" )
+		else
+			page.visual_effect( :appear, "sbiancant", :to => 0.8)
+			page.visual_effect( :appear, "opacizator", :to => 0.8)
+		end
+	end
+
+	def reset_background(page)
+		if @operation_mode.eql?(:fast)
+			page.hide( "sbiancant" )
+			page.hide( "opacizator" )
+		else
+			page.visual_effect( :fade, "sbiancant", :from => 0.8)
+			page.visual_effect( :fade, "opacizator", :from => 0.8)
+		end
+	end
+
+
+
+
+	def clear_operation_status(page)
+		page.replace_html( "operation_box_step_displayer", "" )
+	end
+	def render_operation_status(page, status)
+		page.replace_html( "operation_box_step_displayer", status )
+	end
+
+
+
+end
+
+
+
+
+
+begin
+
+
+    class ActionView::Base
+        
+        def operation_box
+            return '<div id="operation_box" style="display:none; z-index:1">
+                    <div id="operation_box_header" class="operation_box header">
+                        <div id="operation_box_step_displayer" class="operation_box step_displayer" ><!-- this will be replaced --></div>
+                        <div id="operation_box_title"  class="operation_box title"><!-- this will be replaced --></div>
+                    </div>
+                    <div id="operation_box_canvas_wait" class="operation_box canvas" style="text-align:center; display:none; padding:2em 0 0 0;" >
+                        <img src="/plugin_assets/html/images/ajax-loader-big-loading.gif" alt="AJAX LOADER BIG" />                
+                    </div>
+                    <div id="operation_box_canvas" class="operation_box canvas"><!-- this will be replaced --></div>
+                </div>'
+    
+        end
+    
+    
+    
+        def sbiancant
+            return '<div id="sbiancant" style="display:none;"></div>'
+        end
+        
+        def opacizator
+            return '<div id="opacizator" style="display:none;"></div>'
+        end
+    
+    end
+
+
+
+rescue Exception => e
+    puts "Error while accessing to ActionView::Base. (#{e})"
+end
+
+
+
+
+
+

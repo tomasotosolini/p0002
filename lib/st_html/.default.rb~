@@ -1,0 +1,18 @@
+###########################################################################
+#    Copyright (C) 2007 by Tomaso Tosolini                                      
+#    <tomaso.tosolini@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+
+module St::Graphs::Default
+end
+
+
+require 'st/graphs/default/vertex'
+require 'st/graphs/default/arch'
+require 'st/graphs/default/diarch'
+require 'st/graphs/default/graph'
+require 'st/graphs/default/digraph'

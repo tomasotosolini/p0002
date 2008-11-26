@@ -1,0 +1,31 @@
+
+
+require("st/html/ui_views")
+
+class St::Html::UiViews::AbstractView
+
+	attr( :options, true)
+
+	def initialize(*_options)
+		self.options= St::Html::Support::Util.extract_variable_options(_options)
+	end
+
+
+	def render(x)
+		raise
+	end
+
+	def async_render(page, target, x)
+		page.replace_html(target, render(x)) unless x.nil?
+	end
+
+    def self.builder
+        return @@builder
+    end
+    def self.setup
+        @@builder = Builder::XmlMarkup.new
+    end
+
+end
+
+

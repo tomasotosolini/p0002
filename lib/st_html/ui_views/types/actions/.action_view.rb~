@@ -1,0 +1,42 @@
+###########################################################################
+#    Copyright (C) 2007 by Tomaso Tosolini e Stefano Salvador                                      
+#    <tomaso.tosolini@cbm.fvg.it, stefano.salvador@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+
+class ActionView < St::Html::UiViews::AbstractView
+
+
+	def render(x)
+        
+        url = x.options[:url] ? x.options[:url] : [x.controller, "action_performed" ].join("/")
+        parameters_to_json = self.options[:parameters].to_json
+
+        ActionView.builder.a(
+                :class => :action, 
+                :href => "javascript: void(0);", 
+                :onclick => %{new Ajax.Request('#{url}', {asynchronous:true, evalScripts:true, parameters:#{parameters_to_json} }); return false;}, 
+                :id => x.action_id, :alt => x.options[:label] ? x.options[:label] : x.name ) { |builder|
+
+            if x.options[:image]
+                builder.img(
+                    :alt => x.options[:label] ? x.options[:label] : x.name,
+                    :src => x.options[:image] )
+            else
+                builder.target! << x.options[:label] ? x.options[:label] : x.name
+            end
+        
+        }
+
+		return builder.target!
+	end
+
+
+
+end
+
+
+

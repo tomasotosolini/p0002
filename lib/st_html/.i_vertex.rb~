@@ -1,0 +1,8 @@
+ 
+
+module St::Graphs::IVertex
+
+	attr(:vertex_id, true)
+	attr(:vertex_name, true)
+
+end

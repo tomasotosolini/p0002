@@ -1,0 +1,18 @@
+
+
+
+
+require 'st/html/support'
+
+
+class St::Html::Support::Util
+
+	def self.extract_variable_options(x)
+            @@callcount = defined?(@@callcount) ? @@callcount + 1 : 1
+
+p "extract_variable_options " + @@callcount.to_s
+
+		return (x.size > 0) && !x[0].nil? && x[0].is_a?(Hash) ?  x[0] : {}
+	end
+
+end

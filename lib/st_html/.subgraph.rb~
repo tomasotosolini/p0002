@@ -1,0 +1,97 @@
+
+
+require 'st/graphs'
+
+class St::Graphs::Subgraph
+	
+	attr(:id, true)
+	attr(:name, true)
+	attr(:elements, true)
+	attr(:attributes, true)
+
+
+	def initialize(id,name)
+		self.id= id
+		self.name= name
+		self.elements= []
+		self.attributes= {}
+	end
+
+
+	def init_gv_attributes
+	end
+
+
+	def element(id)
+		self.elements.each do |e|
+			if e.is_a?( St::Graphs::Subgraph ) then 
+				return e if (e.id == id)
+			end
+			if e.is_a?( St::Graphs::IVertex ) then 
+				return e if (e.vertex_id == id)
+			end
+		end
+	end
+
+
+
+
+
+
+
+
+
+	def add_element(e)
+
+		if e.is_a?( St::Graphs::Subgraph ) then  
+
+			self.elements.each do |i|
+				if i.is_a?( St::Graphs::Subgraph ) then 
+					if (i.id == e.id) then 
+						raise(St::Graphs::Exceptions::GraphException.new('subgraph already present', self, 'Exception') )
+					end
+				end
+				if e.is_a?(St::Graphs::IVertex) then
+					if (i.vertex_id == e.id) then 
+						raise(St::Graphs::Exceptions::GraphException.new('vertex already present', self, 'Exception') )
+					end
+				end
+			end
+			self.elements<<( e )
+
+		end
+
+
+
+
+
+
+
+
+
+
+
+		if ( e.is_a?(St::Graphs::IVertex) ) then
+
+			self.elements.each do |i|
+				if i.is_a?(St::Graphs::Subgraph) then 
+					if (i.id == e.vertex_id) then 
+						raise(St::Graphs::Exceptions::GraphException.new('subgraph already present', self, 'Exception') )
+					end
+				end
+				if e.is_a?(St::Graphs::IVertex) then
+					if (i.vertex_id == e.vertex_id) then 
+						raise(St::Graphs::Exceptions::GraphException.new('vertex already present', self, 'Exception') )
+					end
+				end
+			end
+			self.elements<<( e )
+
+		end
+	end
+	
+
+
+end
+
+

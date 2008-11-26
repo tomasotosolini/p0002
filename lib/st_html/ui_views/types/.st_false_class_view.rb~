@@ -1,0 +1,16 @@
+###########################################################################
+#    Copyright (C) 2007 by Tomaso Tosolini e Stefano Salvador                                      
+#    <tomaso.tosolini@cbm.fvg.it, stefano.salvador@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+require( File.dirname(__FILE__) + "/st_boolean_view" )
+
+class StFalseView < StBooleanView
+
+
+end
+
+

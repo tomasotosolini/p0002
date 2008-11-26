@@ -1,0 +1,67 @@
+###########################################################################
+#    Copyright (C) 2007 by Stefano Salvador, Tomaso Tosolini                                      
+#    <stefano.salvador@cbm.fvg.it, tomaso.tosolini@cbm.fvg.it>                                                             
+#
+# Copyright: See COPYING file that comes with this distribution
+#
+###########################################################################
+
+module St::Html::Support::FormExtensions
+	
+	def operation_mode
+		@operation_mode = :fast unless defined?( @operation_mode )
+		return @operation_mode
+	end
+	def operation_mode=( x )
+		@operation_mode = x
+	end
+
+
+	def render_operation_result(exit_status="unknown", details=nil, delay=2)
+		
+		if ["success", "failure", "canceled", "aborted"].include?(exit_status) 
+			s = "<div class=\"operation_exit_status #{exit_status}\">#{l("html_form_opeation_exit_status_#{exit_status}".to_sym)}</div>#{ details ? "<div class=\"operation_exit_status  details\">#{details}</div>" : ""}"
+		else
+			s = l(:html_form_opeation_exit_status_undefined)
+		end
+		controller = self
+		render(:update) do |page|
+			controller.clear_operation_status(page)
+			page.replace_html( "operation_box_canvas", s )
+			page.delay(delay) do 
+				controller.reset_background(page)
+				page.visual_effect(:fade, "operation_box")
+				page.replace_html( "operation_box_canvas", "" )
+			end
+		end
+	end
+
+
+	def set_background_for_operations(page)
+		page.visual_effect( :appear, "sbiancant", :to => 0.8)
+		page.visual_effect( :appear, "opacizator", :to => 0.8)
+	end
+
+	def reset_background(page)
+		page.visual_effect( :fade, "sbiancant", :from => 0.8)
+		page.visual_effect( :fade, "opacizator", :from => 0.8)
+	end
+
+
+
+
+	def clear_operation_status(page)
+		page.replace_html( "operation_box_step_displayer", "" )
+	end
+	def render_operation_status(page, status)
+		page.replace_html( "operation_box_step_displayer", status )
+	end
+
+
+
+
+
+
+
+
+end

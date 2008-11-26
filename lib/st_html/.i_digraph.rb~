@@ -1,0 +1,64 @@
+ 
+require 'st/graphs'
+require 'st/graphs/exceptions'
+
+
+
+module St::Graphs::IDigraph 
+
+	include St::Graphs::IGraph
+
+	def add_vertex_exiting_from(v, origin)
+		self.add_vertex(v)
+		self.connect(origin,v)
+	end
+	def add_vertex_entering_to(v, destination)
+		self.add_vertex(v)
+		self.connect(v,destination)
+	end
+
+
+
+	def exiting_archs(v)
+		rv = []
+		self.archs.each do |i|
+			if i.exits_from?(v) then 
+				rv.push(i)
+			end
+		end
+		return rv
+	end
+	def exiting_vertices(v)
+		rv = []
+		self.exiting_archs(v).each do |i|
+			if ( i.other_extreme(v) != nil ) then rv.push(i.other_extreme(v)) end
+		end
+		return rv
+	end
+
+	def entering_archs(v)
+		rv = []
+		self.archs.each do |i|
+			if i.enters_to?(v) then 
+				rv.push(i)
+			end
+		end
+		return rv
+	end
+	def entering_vertices(v)
+		rv = []
+		self.entering_archs(v).each do |i|
+			if ( i.other_extreme(v) != nil ) then rv.push(i.other_extreme(v)) end
+		end
+		return rv
+	end
+
+
+
+
+# 	def connect(v1, v2)
+# 		raise( St::Graphs::GraphException.new('method not defined(connect)', self, 'Exception'))
+# 	end
+
+
+end

@@ -1,0 +1,55 @@
+= StHtml
+
+==Introduction
+
+Developers often are required to present *forms* to thier users and gather
+informations users reply. If you are a ruby web developer this gem may be useful
+since aims to make this things more easy, keeping you away from html forms and
+parameter handling noise.
+
+==Example
+
+The form with login, full user name, address stuff, password (with confirm) to 
+be presented in your amazing brand new social web portal. Once user has 
+submitted her values you should gather the collected info, the you'd like to 
+validate them in order to prevent missing or wrong fields. Next it would be nice 
+to present a report with the saved values (not the passwords though), with 
+additional info about the pin and the supplementary passfrase.
+
+So at a glance with StHtml you can do this quite easily, we hope.
+
+Create a Form object
+
+register_form = Form.new
+
+add it with the fields:
+
+login = register_form.add( "string", "login" ) 
+register_form.add( "string", "full_name" ) 
+register_form.add( "text", "address" ) 
+register_form.add( "password", "pass" ) 
+register_form.add( "password", "passc" ) 
+
+
+add validation stuff:
+
+login.validators << NotNullValidator
+register_form.validators << FieldsEqual.new "pass", "passc" 
+
+
+Next when you want to show this form:
+
+register_form.render
+
+Once user posts her new data
+
+register_form.load
+
+to validate:
+
+register_form.validate
+
+to show the report:
+
+register_form.render_
+
