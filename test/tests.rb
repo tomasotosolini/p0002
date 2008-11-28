@@ -22,5 +22,6 @@ require 'test/layout/t01_border_layout'
 require 'test/layout/t02_flow_layout'
 
 
-  # items, groups
+  # items, container
 require 'test/t06_abstract_item'
+require 'test/t07_abstract_container'
