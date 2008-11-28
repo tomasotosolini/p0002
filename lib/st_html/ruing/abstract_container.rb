@@ -1,101 +1,13 @@
-############################################################################
-##    Copyright (C) 2007 by Stefano Salvador, Tomaso Tosolini                                      
-##    <stefano.salvador@cbm.fvg.it, tomaso.tosolini@cbm.fvg.it>                                                             
-##
-## Copyright: See COPYING file that comes with this distribution
-##
-############################################################################
-#
-#require( 'st' )
-#require( 'st/html' )
-#require( 'st/html/form3' )
-#
-#require( 'st/html/form3/abstract_item' )
-#
-#require( 'st/html/form3/exceptions' )
-#
-#require( 'st/html/support/util' )
+
+require( 'st_html' )
+require( 'st_html_license' )
+
+require( 'st_html/support/util' )
+
+require( 'st_html/ruing/containers/behaviors' )
 
 module StHtml
 module Ruing
-
-# ------------------------------------------------------------------------------    
-# When the items become contained, will use this to extend themselves a bit 
-module Contained
-    
-    def Contained.extend_object contained
-
-        if contained.respond_to?(:get_input_id) \
-            and !contained.respond_to?(:item_get_input_id) # apply once is enough!
-
-            ec = class << contained; self; end # Catch the eigenclass
-            
-            ec.class_eval { # Because these methods are private
-                
-              alias_method :item_get_input_id, :get_input_id  
-                #
-                # Put in the safe the old method, is still necessary
-                
-                # This method is now conscious of the parental relationship
-              define_method :get_input_id do
-                  if client_attributes[:parent]
-                    (client_attributes[:parent][:chain] \
-                        + [item_get_input_id]).join(StHtml::Ruing::AbstractItem::PATH_SEP)
-                  else 
-                    item_get_input_id
-                  end
-              end
-              
-                # A new method
-              define_method :root_parent do
-                return client_attributes[:parent] \
-                    && client_attributes[:parent][:root] ? \
-                    client_attributes[:parent][:root] : contained
-              end
-              
-            }
-            super
-        else
-            raise StHtml::Ruing::Exception, \
-              'Extended element must respong to :get_input_id.'
-      end
-    end
-    
-end # --------------------------------------------------------------------------   
-
-# ------------------------------------------------------------------------------    
-# When no more contained
-module NotContained
-    
-    def NotContained.extend_object contained
-
-        if contained.respond_to?(:get_input_id) \
-            and contained.respond_to?(:item_get_input_id) 
-              #
-              # The latter is required for restoring
-
-            ec = class << contained; self; end # Catch the eigenclass
-            
-            ec.class_eval { # Because these methods are private
-                
-              remove_method :get_input_id 
-                #
-                # Removing enhanced version
-                
-              remove_method :root_parent 
-              
-              alias_method :get_input_id, :item_get_input_id
-                #
-                # Restoring original
-            }
-            super
-        else
-            raise StHtml::Ruing::Exception, \
-              'Extended element must respong to :get_input_id.'
-      end
-    end
-    
-end # --------------------------------------------------------------------------   
 
 class AbstractContainer < AbstractItem
 
@@ -109,7 +21,7 @@ class AbstractContainer < AbstractItem
 
 
     def items name_or_index=nil
-        return @items if n.nil?
+        return @items if name_or_index.nil?
 
           # when receiving an index is easy...
         if name_or_index.is_a? Integer
@@ -136,7 +48,7 @@ class AbstractContainer < AbstractItem
     def set_parental_relations item
 
           # making the contained item conscious of its new status
-        item.extend Contained
+        item.extend Behaviors::Contained
         
           # it is sure that we are father for this object
         item.client_attributes[:parent] = {
@@ -158,7 +70,7 @@ class AbstractContainer < AbstractItem
     def unset_parental_relations item
         
           # removing Contained extensions
-        item.extend NotContained
+        item.extend Behaviors::NotContained
         
           # cut relation with parent
         item.client_attributes[:parent] = {
