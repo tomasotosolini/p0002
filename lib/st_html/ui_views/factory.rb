@@ -6,7 +6,7 @@ gem 'activesupport'
 
 require 'active_support'
     #
-    # camelization is in our hearts
+    # Camelization is in our hearts
     
 require 'support/util'
 
@@ -28,7 +28,8 @@ class Factory
                 return eval( klass ).new(opt)
             rescue Exception => exc
                 return self.get(type, opt) 
-                  # removed the folder option, let's try again with safe paths
+                  #
+                  # Removed the folder option, let's try again with safe paths.
             end
 
         else

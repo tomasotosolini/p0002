@@ -58,5 +58,98 @@ class T07_AbstractContainer < Test::Unit::TestCase
           #
           # demostrating item_not_to_be_inserted is not affected with other's modifications
     end
+
+
+    #
+    # Testing correctedness of path
+    #
+    def test_container_recursion
+        
+        l1 = StHtml::Ruing::AbstractContainer.new "level1"
+        l2 = StHtml::Ruing::AbstractContainer.new "level2"
+        i1 = StHtml::Ruing::AbstractItem.new "item1"
+        i2 = StHtml::Ruing::AbstractItem.new "item2"
+        
+        l2.add i1
+        l2.add i2
+        l1.add l2
+        
+        assert_equal 'level1', l1.get_input_id, 'Level 1 group wrong'
+        assert_equal 'level1.level2', l2.get_input_id, 'Level 2 group wrong'
+        assert_equal 'level1.level2.item1', i1.get_input_id, 'Item1 wrong'
+        assert_equal 'level1.level2.item2', i2.get_input_id, 'Item2 wrong'
+          
+    end
+    #
+    # Testing insertion order independency 
+    #
+    def test_container_recursion
+        
+        l1 = StHtml::Ruing::AbstractContainer.new "level1"
+        l2 = StHtml::Ruing::AbstractContainer.new "level2"
+        i1 = StHtml::Ruing::AbstractItem.new "item1"
+        i2 = StHtml::Ruing::AbstractItem.new "item2"
+        
+        l2.add i1
+        l1.add l2
+        l2.add i2
+        
+        assert_equal 'level1', l1.get_input_id, 'Level 1 group wrong'
+        assert_equal 'level1.level2', l2.get_input_id, 'Level 2 group wrong'
+        assert_equal 'level1.level2.item1', i1.get_input_id, 'Item1 wrong'
+        assert_equal 'level1.level2.item2', i2.get_input_id, 'Item2 wrong'
+          
+        l1 = StHtml::Ruing::AbstractContainer.new "level1"
+        l2 = StHtml::Ruing::AbstractContainer.new "level2"
+        i1 = StHtml::Ruing::AbstractItem.new "item1"
+        i2 = StHtml::Ruing::AbstractItem.new "item2"
+        
+        l1.add l2
+        l2.add i2
+        l2.add i1
+        
+        assert_equal 'level1', l1.get_input_id, 'Level 1 group wrong'
+        assert_equal 'level1.level2', l2.get_input_id, 'Level 2 group wrong'
+        assert_equal 'level1.level2.item1', i1.get_input_id, 'Item1 wrong'
+        assert_equal 'level1.level2.item2', i2.get_input_id, 'Item2 wrong'
+          
+    end
+
+
+    def test_ancestor_removal
+        
+        l1 = StHtml::Ruing::AbstractContainer.new "level1"
+        l2 = StHtml::Ruing::AbstractContainer.new "level2"
+        l3 = StHtml::Ruing::AbstractContainer.new "level3"
+        i1 = StHtml::Ruing::AbstractItem.new "item1"
+        i2 = StHtml::Ruing::AbstractItem.new "item2"
+        
+        l2.add i1
+        l2.add i2
+        l1.add l2
+        l3.add l1
+        
+        assert_equal 'level3.level1.level2.item2', i2.get_input_id, 'Item2 wrong'
+        
+        l1.remove 0
+        
+        assert_equal 'level2.item2', i2.get_input_id, 'Item2 wrong'
+          # i2 is still contained in "l2"
+        
+        l1 = StHtml::Ruing::AbstractContainer.new "level1"
+        l2 = StHtml::Ruing::AbstractContainer.new "level2"
+        l3 = StHtml::Ruing::AbstractContainer.new "level3"
+        i1 = StHtml::Ruing::AbstractItem.new "item1"
+        i2 = StHtml::Ruing::AbstractItem.new "item2"
+        
+        l2.add i1
+        l2.add i2
+        l1.add l2
+        l3.add l1
+        
+        l3.remove 0
+        
+        assert_equal 'level1.level2.item2', i2.get_input_id, 'Item2 wrong'
+    end
     
 end

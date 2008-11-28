@@ -6,6 +6,6 @@ module StHtml
 module Ruing
 
     class Exception < StHtml::Exception; end
-    
+        
 end
 end
