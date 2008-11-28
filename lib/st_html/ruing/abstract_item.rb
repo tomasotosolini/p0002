@@ -8,7 +8,6 @@ module Ruing
 
 class AbstractItem
 
-    PATH_SEP = '.'
 
     attr( :options, true )
     attr( :forced_options )
