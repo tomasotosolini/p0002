@@ -14,7 +14,7 @@ class AbstractView
     attr( :options, true)
 
     def initialize(*_options)
-        self.options= extract_va_options(_options)
+        @options = extract_va_options(_options)
     end
 
 
