@@ -18,7 +18,7 @@ class Factory
     def self.get(type, *options)
         
         opt = extract_va_options(options)
-        views_folder = opt.delete(:views_folder)
+        views_folder = opt.delete(:views_folder) 
 
         if views_folder
 
