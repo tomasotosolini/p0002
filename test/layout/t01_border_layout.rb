@@ -2,8 +2,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
  
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
-
 require 'test/unit'
 
 require 'st_html/ruing/layout/border_layout'
@@ -40,12 +38,20 @@ class T01_BorderLayout < Test::Unit::TestCase
             :center => LayC.new ,\
             :right => LayC.new 
         
-        assert_equal \
-%-<table>- +
-%-<tr><td class="top" colspan="3">.</td></tr>- +
-%-<tr><td class="left"></td><td class="center">.</td><td class="right">.</td></tr>- +
-%-<tr><td class="bottom" colspan="3"></td></tr>- +
-%-</table>-\
-            ,bl.layout( :builder => Builder::XmlMarkup.new(:indent=>0) )
+        r = bl.layout( :builder => Builder::XmlMarkup.new(:indent=>0) )
+        
+        a = %-<table>\
+<tr><td colspan="3" class="top">.</td></tr>\
+<tr><td class="left"></td><td class="center">.</td><td class="right">.</td></tr>\
+<tr><td colspan="3" class="bottom"></td></tr>\
+</table>-
+        b = %-<table>\
+<tr><td class="top" colspan="3">.</td></tr>\
+<tr><td class="left"></td><td class="center">.</td><td class="right">.</td></tr>\
+<tr><td class="bottom" colspan="3"></td></tr>\
+</table>-
+        
+        assert(  a.eql?( r ) || b.eql?( r ) )
+
     end
 end

@@ -2,8 +2,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
  
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
-
 require 'test/unit'
 
 require 'st_html/ruing/layout/flow_layout'
@@ -16,7 +14,9 @@ class LayCR < StHtml::Ruing::AbstractRenderer
 end
 
 class LayC < StHtml::Ruing::AbstractRenderer
-  
+  def initialize
+      @r = nil
+  end
   def renderer
       @r = LayCR.new unless @r
       return @r 
@@ -27,7 +27,9 @@ class T02_FlowLayout < Test::Unit::TestCase
 
     def test_border_layout
         
-        fl = StHtml::Ruing::Layout::FlowLayout.new :align => :left
+        assert_nothing_raised() {
+            StHtml::Ruing::Layout::FlowLayout.new :align => :left
+        }
     end
     
     def test_layout
