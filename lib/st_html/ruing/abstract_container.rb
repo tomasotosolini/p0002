@@ -36,15 +36,22 @@ class AbstractContainer < AbstractItem
     end
 
 
-    def add new_item
-        @items << new_item
+    def add *new_items
         
-        set_parental_relations new_item 
-          
-        new_item
+        new_items = extract_va_options new_items, false 
+        
+        new_items.each do |x|
+          @items << x
+        
+          set_parental_relations x
+        end  
+        new_items.size > 1 ? new_items : new_items[0]
     end
+
     
     protected
+    
+    
     def set_parental_relations item
 
           # making the contained item conscious of its new status
@@ -65,8 +72,9 @@ class AbstractContainer < AbstractItem
                 item.set_parental_relations c
             end
         end
-
     end
+    
+    
     def unset_parental_relations item
         
           # removing Contained extensions
@@ -86,26 +94,28 @@ class AbstractContainer < AbstractItem
             end
         end
     end
+
     
     public
+
     
     def remove name_or_index 
         
-          # when receiving an index is easy...
-        if name_or_index.is_a? Integer
-          unset_parental_relations @items[name_or_index]  
-          return @items.delete_at name_or_index 
-        end
+        # when receiving an index is easy...
+      if name_or_index.is_a? Integer
+        unset_parental_relations @items[name_or_index]  
+        return @items.delete_at( name_or_index ) 
+      end
         
-          # but also when input is string is not too bad.
-        for i in 0...@items.size
-            return remove(i) if @items[i].name.to_s.eql? name_or_index.to_s
-        end 
-        raise StHtml::Ruing::Exception, \
-            "Item not found. (#{name_or_index})"
+        # but also when input is string is not too bad.
+      for i in 0...@items.size
+        return remove(i) if @items[i].name.to_s.eql? name_or_index.to_s
+      end 
+      raise StHtml::Ruing::Exception, \
+        "Item not found. (#{name_or_index})"
     end
 
-
+    
     def clear	
         remove(0) while @items.size > 0
     end

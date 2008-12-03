@@ -2,8 +2,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
  
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
-
 require 'test/unit'
 
 require 'st_html/ruing/ruing'
@@ -59,11 +57,20 @@ class T07_AbstractContainer < Test::Unit::TestCase
           # demostrating item_not_to_be_inserted is not affected with other's modifications
     end
 
+    def test_multiple_add
 
+        ac = StHtml::Ruing::AbstractContainer.new "mycontainer", :option1 => "a", :option2 => "b"
+        i1 = StHtml::Ruing::AbstractItem.new "myitem1"
+        i2 = StHtml::Ruing::AbstractItem.new "myitem2"
+        i3 = StHtml::Ruing::AbstractItem.new "myitem3"
+        
+        ac.add i1, i2, i3
+    end
+    
     #
     # Testing correctedness of path
     #
-    def test_container_recursion
+    def test_container_recursion01
         
         l1 = StHtml::Ruing::AbstractContainer.new "level1"
         l2 = StHtml::Ruing::AbstractContainer.new "level2"
@@ -83,7 +90,7 @@ class T07_AbstractContainer < Test::Unit::TestCase
     #
     # Testing insertion order independency 
     #
-    def test_container_recursion
+    def test_container_recursion02
         
         l1 = StHtml::Ruing::AbstractContainer.new "level1"
         l2 = StHtml::Ruing::AbstractContainer.new "level2"
