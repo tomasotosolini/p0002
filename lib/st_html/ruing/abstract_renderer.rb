@@ -51,7 +51,7 @@ class AbstractRenderer
     end
 
     def cached?
-        return @options.has_key?(:cache) && !@options[:cache].nil?
+        return @options.has_key?(:cache) && @options[:cache]
     end
     def cache( x )
         @options[:cache] = x
