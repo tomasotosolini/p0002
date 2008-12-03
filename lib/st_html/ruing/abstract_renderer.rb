@@ -21,26 +21,33 @@ class AbstractRenderer
     #
     # Render options set by wrapper object 
     #
-    attr( :render_options, true )
-    alias :rro :render_options
+    attr( :ro, true )
+
 
     def initialize( *opt )
         @options = extract_va_options opt 
-        @final_render_options = nil
+
+        @ro = nil
+        @fro = nil
+        @rb = @options.delete(:builder)
     end
 
     #
     # This is the most important for this class :)
     #
     def render(x, *renderoptions)
-        @render_options = extract_va_options(renderoptions) unless @render_options
-        build_final_render_options(x)
+        #
+        # renderoptions must always be reset
+        #
+        @ro = extract_va_options(renderoptions)
+        build_final_render_options(x) 
+        
     end
 
     # TODO Maybe less visible?
     def has_render_option?(_option)
-        build_final_render_options( nil ) unless @final_render_options
-        return @final_render_options.has_key?(_option)
+        build_final_render_options( nil ) unless @fro
+        return @fro.has_key?(_option)
     end
 
     def cached?
@@ -52,8 +59,10 @@ class AbstractRenderer
 
     # this thethod fully replaces the ui element originating from x
     def update(page, x, *renderoptions)
-
-        @render_options = extract_va_options(renderoptions) unless @render_options
+        #
+        # renderoptions must always be reset
+        #
+        @ro = extract_va_options(renderoptions) 
 
         if !x.nil? \
               && x.respond_to?(:items) \
@@ -63,13 +72,13 @@ class AbstractRenderer
 
             if x.respond_to?(:items)
 
-                page.replace( x.get_input_id, x.renderer.render(x, @render_options) )
+                page.replace( x.get_input_id, x.renderer.render(x, @ro) )
                   # Groups use input instead of item the real operation is done 
                   # by render so here we have only to allow it to receive 
                   # renderoptions
             else
 
-                page.replace( x.get_item_id, x.renderer.render(x, @render_options) )
+                page.replace( x.get_item_id, x.renderer.render(x, @ro) )
                   # the real operation is done by render so here we have only 
                   # to allow it to receive renderoptions
             end
@@ -135,13 +144,15 @@ class AbstractRenderer
     # with, so before the rendering start we must merge in the right
     # order the options set at renderer creation with the onen given 
     # later.
-    attr( :final_render_options )
-    alias :rfro :final_render_options
+    attr( :fro )
+      #
+      # final_render_options
 
     # optimization: scrivendo e leggendo qui si evita di accedere 
     # attraverso la has che sara un po piu lenta
-    attr( :rbuilder, true )
-    alias :rb :rbuilder 
+    attr( :rb, true )
+      #
+      # rbuilder 
 
     def self.get_builder( *bo )
         Builder::XmlMarkup.new( { :indent => 4 }.merge(extract_va_options( bo )) )
@@ -158,8 +169,9 @@ class AbstractRenderer
     #
     def build_final_render_options(x)
 
-        return if self.cached?  
+        return if cached?  
 
+        
         if !x.nil? && x.respond_to?(:options) && x.respond_to?(:forced_options)
             renderee_render_options = x.options[:render] ? x.options[:render] : {}
             renderee_render_force_options = x.forced_options[:render] ? x.forced_options[:render] : {}
@@ -168,41 +180,25 @@ class AbstractRenderer
             renderee_render_force_options = {}
         end
         renderer_render_options = options || {}
-        renderer_render_method_ro_parameter = @render_options || {} 
+        renderer_render_method_ro_parameter = @ro || {} 
 
-        @final_render_options = renderee_render_options.merge(
+        #
+        # The builder given with thn renderoptions overtakes
+        #
+        @rb = renderer_render_method_ro_parameter.delete(:builder) if renderer_render_method_ro_parameter.has_key?(:builder)
+
+        @fro = renderee_render_options.merge(
             renderer_render_options.merge(
                 renderer_render_method_ro_parameter.merge( renderee_render_force_options )
             ) 
         )
-
+        
+        #
+        # Dealing with forms, interactive by default
+        #
+        @fro[:editable] = true unless @fro.has_key? :editable
     end
 
-    private
-
-    #            def some_not_valid?(validators_list)
-    #                rv = false
-    #                validators_list.each do |v|
-    #                    rv = rv || (not v.valid?)
-    #                end
-    #                return rv
-    #            end
-
-    #            def get_error_messages(validators_list)
-    #                rv = []
-    #                validators_list.each do |v|
-    #                    rv << v.validation_info[:message] unless rv.include?(v.validation_info[:message])
-    #                end
-    #                return rv
-    #            end
-
-    #            def get_classes(validators_list)
-    #                rv = []
-    #                validators_list.each do |v|
-    #                    rv = rv | v.validation_info[:class]
-    #                end
-    #                return rv
-    #            end
 end
 end
 end
