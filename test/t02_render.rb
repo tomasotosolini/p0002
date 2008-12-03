@@ -3,8 +3,6 @@
 # and open the template in the editor.
  
 
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
-
 require 'test/unit'
 
 require 'st_html'
@@ -16,7 +14,7 @@ class T02Render < Test::Unit::TestCase
     def test_render
 
         v = StHtml::UiViews::Factory.get("string")
-        assert(v.render("hello").eql?("hello"))
+        assert(v.render("hello").eql?("hello"), "Expected hello, had #{v.render("hello")}")
 
         v = StHtml::UiViews::Factory.get("symbol")
         assert(v.render(:hello).eql?("hello"))
