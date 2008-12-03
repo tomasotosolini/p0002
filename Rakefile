@@ -63,6 +63,7 @@ task :doc => [:rdoc]
 #
 Rake::TestTask.new(:test) do |t|
     t.libs << "test"
+    t.libs << "lib"
     t.test_files = FileList['test/tests.rb']
     t.verbose = true
 end
