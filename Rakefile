@@ -67,3 +67,13 @@ Rake::TestTask.new(:test) do |t|
     t.test_files = FileList['test/tests.rb']
     t.verbose = true
 end
+
+#
+# The scaling test
+#
+Rake::TestTask.new(:scaling) do |t|
+    t.libs << "test"
+    t.libs << "lib"
+    t.test_files = FileList['test/scaling.rb']
+    t.verbose = true
+end

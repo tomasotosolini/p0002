@@ -29,6 +29,7 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
     attr( :ui_view, true )
 
     def initialize *opt
+
         super
         
         @wrapper_attributes = nil
@@ -122,7 +123,7 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
         @wrapper_attributes = { :id => element.get_item_id  }
         @wrapper_attributes[:class] = "form_item #{element.name}"
 
-        html_options :wrapper, @attributes
+        html_options :wrapper, @wrapper_attributes
           #
           # Completing html options
     end

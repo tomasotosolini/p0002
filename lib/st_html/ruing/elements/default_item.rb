@@ -52,7 +52,8 @@ class DefaultItem < StHtml::Ruing::AbstractItem
 
         @renderer = self.options[:renderer] \
                 || StHtml::Ruing::Elements::Renderers::DefaultItemRenderer.new( \
-                    self.options[:renderer_options] || {}  )
+                    self.options[:renderer_options] || {}  ) \
+                unless @renderer
         
 #        @serializer = self.options[:serializer] \
 #                || StHtml::Ruing::Elements::Serializers::ItemSerializer.new( \
@@ -76,8 +77,6 @@ class DefaultItem < StHtml::Ruing::AbstractItem
 
         self.options.delete( :renderer )
         self.options.delete( :renderer_options )
-        self.options.delete( :render )
-        self.options[:force].delete( :render )
 
 #        self.options.delete( :serializer )
 #        self.options.delete( :serializer_options )
