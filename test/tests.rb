@@ -10,9 +10,12 @@ require 'ruby-debug'
 
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
-   # basic things
+# Including customized assertions 
+require 'test/custom/test_custom'
+
+# basic things
 require 'test/t01_views_factory'
-require 'test/t02_render'
+require 'test/t02_views_render'
 require 'test/t03_vararg'
 
   # renderer, validator, etc
