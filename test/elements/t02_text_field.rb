@@ -61,9 +61,23 @@ tf.renderer.render(tf, :editable => false ), 'Wrong rendering.')
 
       tf.value="hello"
 
-      assert_equal( \
-%-<div class=\"form_item myname\" id=\"myname_item\"><input id=\"myname\" name=\"myname\" value=\"hello\" /></div>-, \
-tf.renderer.render(tf, :editable => true ), 'Wrong rendering.')
+      assert_substrings_cover( [ \
+%-<div-, \
+%-class="form_item myname"-, \
+%-class="form_item myname"><input-, \
+%-id="myname_item"-, \
+%-id="myname_item"><input-, \
+%-type="text"-, \
+%-type="text"/></div>-, \
+%-class="form_input"-, \
+%-class="form_input"/></div>-, \
+%-id="myname"-, \
+%-id="myname"/></div>-, \
+%-name="myname"-, \
+%-name="myname"/></div>-, \
+%-value="hello"-, \
+%-value="hello"/></div>-],\
+tf.renderer.render(tf, :editable => true ))
         
     end
 end
