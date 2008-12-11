@@ -59,6 +59,16 @@ end
 task :doc => [:rdoc]
 
 #
+# Testing custom assertions and tests
+#
+Rake::TestTask.new(:custom_tests) do |t|
+    t.libs << "test"
+    t.libs << "lib"
+    t.test_files = FileList['test/custom/t_custom.rb']
+    t.verbose = true
+end
+
+#
 # The default 'test'
 #
 Rake::TestTask.new(:test) do |t|
