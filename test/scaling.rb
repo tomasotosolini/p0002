@@ -18,11 +18,11 @@ class T01bis_Scaling < Test::Unit::TestCase
       di.render # run once to calculate internal options  
       
       for i in 0...1000 do
-          assert_equal( di.renderer.render(di), di.render, 'Wrong direct rendering.')
+          assert_equal( di.renderer.render(di), di.render )
       end
 
       delta = Time.new - t
-      # no great expectations
+      # not great expectations
       print delta  
     end
     def test_scaling_w_cache
@@ -35,7 +35,7 @@ class T01bis_Scaling < Test::Unit::TestCase
       di.renderer.options[:cache] = true # then cache them...
       
       for i in 0...1000 do
-          assert_equal( di.renderer.render(di), di.render, 'Wrong direct rendering.')
+          assert_equal( di.renderer.render(di), di.render )
       end
 
       delta = Time.new - t
