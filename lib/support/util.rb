@@ -3,19 +3,19 @@ require 'st_html_license'
 
 module Kernel
     
+    # 
+    # Extract from the variable pert of the parameters an hash or an array
+    # depending on what king of variable parameters are passed.
+    # The result can be both used directly both passed as variable arg to 
+    # other methods.
     #
-    # Returns the hash of the variable args part, if present or empty hash.
-    #
-    def extract_va_options x, want_hash = true
-        if x.size.eql?(0) then
-          if want_hash then 
-            return {}
-          else
-            return []
-          end
+    def extract_va_options va_list, want_hash = true
+        
+        if va_list.size.eql?(0) then
+          want_hash ? {} : []
+        else
+          va_list[0].is_a?(Hash) ? va_list[0] : va_list
         end
-        return x[0] if x[0].is_a?(Hash)
-        return x 
     end
     
 end
