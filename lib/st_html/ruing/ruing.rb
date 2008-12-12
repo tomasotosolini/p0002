@@ -9,3 +9,10 @@ module Ruing
         
 end
 end
+
+module Kernel
+
+    def ruing_exception
+       StHtml::Ruing::Exception 
+    end
+end
