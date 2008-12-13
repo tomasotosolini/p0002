@@ -45,51 +45,12 @@ class AbstractItem
         @options = { :force => {} }.merge( extract_va_options( itemoptions ) )
         @client_attributes = { }
 
-        self.value= @options[:value] if @options[:value]
-
-
-        # we should remove the passed options are saved outside the @options hash
-        @options.delete(:value)
+        self.value= @options.delete(:value) if @options[:value]
     end
 
 
     def forced_options
         return @options[:force]
-    end
-
-
-    def has_value?
-        if @value.nil? || 
-                !@value.is_a?(Hash) || 
-                !@value.has_key?(:input) || 
-                @value[:input].nil? || 
-                @value[:input].to_s.strip.empty?
-            return false 
-        end
-
-        return true
-    end
-    def value
-        return has_value?  ?  @value[:input]  : nil
-    end
-
-    def value=(x)
-        @value = { }
-        unless x.is_a?(Hash)
-            @value[:input] = x 
-        else
-            x.each do |k,v|
-                @value[k] = v
-            end
-        end
-    end
-
-
-    def raw_value
-        return @value
-    end
-    def raw_value=( x )
-        @value = x
     end
 
 
@@ -99,15 +60,6 @@ class AbstractItem
 
     def get_item_id
         return get_input_id  + "_item"
-    end
-
-
-
-
-
-
-    def get_input_keys
-        return { :input => get_input_id  }
     end
 
 end
