@@ -32,10 +32,10 @@ module Contained
     def Contained.extend_object contained
 
         raise StHtml::Ruing::Exception, \
-              'Extended element must respong to :get_input_id.' \
-              unless contained.respond_to?(:get_input_id) 
+              'Extended element must respong to input_id.' \
+              unless contained.respond_to?(:input_id) 
       
-        return  if contained.respond_to?(:item_get_input_id) 
+        return  if contained.respond_to?(:item_input_id) 
           #
           # Apply once is enough!
 
@@ -43,17 +43,17 @@ module Contained
             
         ec.class_eval { # Because these methods are private
 
-            alias_method :item_get_input_id, :get_input_id  
+            alias_method :item_input_id, :input_id  
             #
             # Put in the safe the old method, is still necessary
 
               # This method is now conscious of the parental relationship
-            define_method :get_input_id do
+            define_method :input_id do
                 if client_attributes[:parent]
                     (client_attributes[:parent][:chain] \
-                    + [item_get_input_id]).join(PATH_SEP)
+                    + [item_input_id]).join(PATH_SEP)
                 else 
-                    item_get_input_id
+                    item_input_id
                 end
             end
 
@@ -80,14 +80,14 @@ module NotContained
     def NotContained.extend_object contained
 
         raise StHtml::Ruing::Exception, \
-            'Extended element must respong to :get_input_id.' \
-            unless contained.respond_to?(:get_input_id)  
+            'Extended element must respong to :input_id.' \
+            unless contained.respond_to?(:input_id)  
               #
               # It must at least seem that this is anitem
               
         raise StHtml::Ruing::Exception, \
-            'Extended element must respong to :item_get_input_id.' \
-            unless contained.respond_to?(:item_get_input_id) 
+            'Extended element must respong to :item_input_id.' \
+            unless contained.respond_to?(:item_input_id) 
               #
               # This is needed for restoring
 
@@ -95,13 +95,13 @@ module NotContained
             
         ec.class_eval { # Because these methods are private
                 
-            remove_method :get_input_id 
+            remove_method :input_id 
                 #
                 # Removing enhanced version
 
             remove_method :root_parent 
 
-            alias_method :get_input_id, :item_get_input_id
+            alias_method :input_id, :item_input_id
                 #
                 # Restoring original
         }

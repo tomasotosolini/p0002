@@ -128,11 +128,11 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
     def get_wrapper_attributes element
 
         if cached?
-            @wrapper_attributes[:id] = element.get_item_id  
+            @wrapper_attributes[:id] = element.item_id  
             return 
         end
 
-        @wrapper_attributes = { :id => element.get_item_id  }
+        @wrapper_attributes = { :id => element.item_id  }
         @wrapper_attributes[:class] = "form_item #{element.name}"
 
         html_options :wrapper, @wrapper_attributes
@@ -143,12 +143,12 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
     def get_input_attributes element
 
         if cached?
-            @attributes[:id] = element.get_input_id  
+            @attributes[:id] = element.input_id  
             @attributes[:name] = @attributes[:id]
             return 
         end
 
-        @attributes = { :id => element.get_input_id }
+        @attributes = { :id => element.input_id }
         @attributes[:name] = @attributes[:id]
         @attributes[:class] = "form_input"
 
@@ -161,11 +161,11 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
     def get_value_attributes element
 
         if cached?
-            @attributes[:id] = element.get_input_id  
+            @attributes[:id] = element.input_id  
             return 
         end
 
-        @attributes = { :id => element.get_input_id }
+        @attributes = { :id => element.input_id }
         @attributes[:class] = "form_value"
 
         html_options :value, @attributes

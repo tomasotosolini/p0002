@@ -54,12 +54,12 @@ class AbstractItem
     end
 
 
-    def get_input_id
+    def input_id
         @name.to_s
     end
 
-    def get_item_id
-        return get_input_id  + "_item"
+    def item_id
+        return input_id  + "_item"
     end
 
 end
