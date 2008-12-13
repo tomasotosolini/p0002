@@ -1,6 +1,6 @@
 
 module StHtml
 
-  VERSION = "0.9.1"
+  VERSION = "0.8"
   
 end
