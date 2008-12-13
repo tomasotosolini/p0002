@@ -1,15 +1,28 @@
 # 
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
+#     StHtml
+# 
+#   Il presente file fa parte del progetto StHtml che viene distribuito 
+#   secondo le clausole della licenza MIT. Nella directory base(root) del 
+#   progetto è presente una copia della licenza.
+# 
+#   For non italian speakers, please be able to translate into your native 
+#   language the license terms expressed by the previous statements. The only
+#   valid license is the one expressed in those statements.
+# 
+#   Copyright Tomaso Tosolini/Stefano Salvador - 2007-2074
+#   Please contact at gmail: tomaso.tosolini
+# 
  
-require 'test/unit'
+require 'elements/test_element'
  
 require 'st_html/ruing/ruing'
 require 'st_html/ruing/elements/default_item.rb'
 
 class T01_DefaultItem < Test::Unit::TestCase
 
-    def test_default_item
+    include TestElement
+    
+    def test_creation
 
         assert_nothing_raised do 
           di = StHtml::Ruing::Elements::DefaultItem.new "myname", :option1 => "a", :option2 => "b"

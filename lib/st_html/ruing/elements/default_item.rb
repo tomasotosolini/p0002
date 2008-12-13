@@ -1,11 +1,17 @@
-###########################################################################
-#    Copyright (C) 2007 by Tomaso Tosolini, Stefano Salvador
-#    <tomaso.tosolini@cbm.fvg.it>
-#    <stefano.salvador@cbm.fvg.it>
-#
-# Copyright: See COPYING file that comes with this distribution
-#
-###########################################################################
+# 
+#     StHtml
+# 
+#   Il presente file fa parte del progetto StHtml che viene distribuito 
+#   secondo le clausole della licenza MIT. Nella directory base(root) del 
+#   progetto è presente una copia della licenza.
+# 
+#   For non italian speakers, please be able to translate into your native 
+#   language the license terms expressed by the previous statements. The only
+#   valid license is the one expressed in those statements.
+# 
+#   Copyright Tomaso Tosolini/Stefano Salvador - 2007-2074
+#   Please contact at gmail: tomaso.tosolini
+# 
 
 #require 'st'
 #require 'st/html'
@@ -17,8 +23,6 @@
 #
 #require 'st/html/form3/renderers/item_renderer'
 #require 'st/html/form3/serializers/item_serializer'
-
-require 'st_html_license'
 
 require 'st_html/ruing/abstract_item'
 require 'st_html/ruing/elements/copyable'
