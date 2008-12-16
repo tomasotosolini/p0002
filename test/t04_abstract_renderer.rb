@@ -14,9 +14,11 @@
 # 
  
 require 'test/unit'
-
 require 'st_html/ruing/abstract_renderer'
 
+#
+# We need an element that supports the concept of options and forced_options
+#
 class Renderee
     attr :options
     def forced_options
@@ -33,24 +35,32 @@ class T04_AbstractRenderer < Test::Unit::TestCase
     def test_abstract_renderer
         
         ar = StHtml::Ruing::AbstractRenderer.new :option1 => "a", :option2 => "b"
-        assert_not_nil ar.options
-        assert_equal "a", ar.options[:option1]
 
-        assert_nil ar.ro
-        assert_nil ar.send( :fro ) # sometimes rule are there only to be force :)
+        assert_not_nil ar.options, 'Expected renderer options to be set.'
+        assert_equal "a", ar.options[:option1], 'Wrong renderer option value.'
+        assert_nil ar.ro, 'Expected renderer render_options to be empty.'
+        assert_nil ar.send( :fro ), 'Expected renderer final_render_options to be empty.' # sometimes rule are there only to be force :)
         
+        #
+        # This also initializes the other options
+        #
         ar.render nil, :roption1 => "c" 
-        assert_not_nil ar.ro
-        assert_equal "c", ar.ro[:roption1]
-        assert_not_nil ar.send( :fro )
-        assert_equal "c", ar.send( :fro )[:roption1]
-
+        
+        assert_not_nil ar.ro, 'Expected renderer render_options to be not empty.'
+        assert_equal "c", ar.ro[:roption1], 'Wrong renderer render_option value.'
+        assert_not_nil ar.send( :fro ), 'Expected renderer final_render_options to be not empty.'
+        assert_equal "c", ar.send( :fro )[:roption1], 'Wrong renderer final_render_option value.'
     end
     
     def test_render_options_hierarchy
+        #
+        # This test inteds to demostrate the priority
+        # when the same option is given
+        #
+        
         
         #
-        # we expect rendereee forced render options
+        # we expect rendereee forced render options - highest priority
         #
         x = Renderee.new :render => { :option => "renderee option" }, \
             :force => { :render => { :option => "renderee forced option" } }
@@ -81,7 +91,7 @@ class T04_AbstractRenderer < Test::Unit::TestCase
 
         
         #
-        # we expect renderee render options
+        # we expect renderee render options - lowest priority
         #
         x = Renderee.new :render => { :option => "renderee option" } 
         ar = StHtml::Ruing::AbstractRenderer.new 

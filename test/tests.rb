@@ -42,7 +42,7 @@ require 'test/t07_abstract_container'
 
 
   # items, container
+require 'test/elements/t00_factory'
 require 'test/elements/t01_default_item'
 require 'test/elements/t02_text_field'
 require 'test/elements/t03_hidden'
-require 'test/elements/t03bis_factory'
