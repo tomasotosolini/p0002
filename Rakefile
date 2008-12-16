@@ -87,7 +87,7 @@ Rake::TestTask.new(:test) do |t|
     t.libs << "lib"
     t.test_files = FileList['test/tests.rb']
     t.verbose = true
-    t.options = '--runner=tk'
+    #t.options = '--runner=tk' # nice but slow
 end
 
 #
