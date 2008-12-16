@@ -23,10 +23,11 @@ require 'st_html/ruing/elements/hidden'
 #require 'elements/my_elements_folder/my_new_kind_of_element'
 
 
-class T03bis_Factory < Test::Unit::TestCase
+class T00_Factory < Test::Unit::TestCase
 
     def test_selection
-
+        # using text_field and hidden even if not testes extensively yet...
+        
         assert_nothing_raised do 
           e = StHtml::Ruing::Factory.get "text_field", "mytextfield"
         end
@@ -49,6 +50,22 @@ class T03bis_Factory < Test::Unit::TestCase
         assert e.is_a?(StHtml::Ruing::Elements::Hidden), 'Wrong returned type.'
     end
 
+    def test_options
+        
+        e = StHtml::Ruing::Factory.get "my_new_kind_of_element", \
+                "mytextfield", \
+                :option1 => { :option2 => 'v1'},
+                :option2 => 'v2',
+                :elements_folder => \
+                    File.join(File.dirname(__FILE__), 'my_elements_folder')
+
+            
+        assert_not_nil e.options, 'Wrong option storing.'
+        assert_equal 'v1', e.options[:option1][:option2], 'Wrong option storing.'
+        assert_equal 'v2', e.options[:option2], 'Wrong option storing.'
+        assert_nil e.options[:option3], 'Wrong option storing.'
+        assert_nil e.options[:elements_folder], 'Expected that :elements_folder was removed by Factory.'
+    end
     
     def test_folders
         

@@ -14,7 +14,10 @@
 # 
 
 class MyNewKindOfElement
+    attr :name
+    attr :options
     def initialize name, *options
-        # empty
+        @name = name
+        @options = extract_va_options options
     end
 end
