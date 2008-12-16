@@ -23,23 +23,23 @@ module UiViews
     
 class AbstractView
 
-    attr( :options, true)
+    attr :options, true
 
-    def initialize(*_options)
-        @options = extract_va_options(_options)
+    def initialize *view_options
+        @options = extract_va_options(view_options)
     end
 
 
-    def render(x)
+    def render x
         raise StHtml::Exception, 'AbstractView: render method must be overridden.'
     end
 
-    def async_render(page, target, x)
+    def async_render page, target, x
         page.replace_html(target, render(x)) unless x.nil?
     end
 
-    def self.builder
-        return Builder::XmlMarkup.new
+    def AbstractView.builder
+        Builder::XmlMarkup.new
     end
 
 end

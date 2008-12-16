@@ -14,23 +14,21 @@
 # 
 
 require 'support/util'
-
-require("st/html/ui_views/types/st_string_view")
-
+require 'st_string_view'
 
 class StNilClassView < StStringView
 
-	def initialize(*_options)
-		super( {
-			:empty_nil => true
-		}.merge( extract_va_options(_options) ) )
+    
+    def initialize *view_options
+        super( {
+                :empty_nil => true
+            }.merge( extract_va_options(view_options) ) )
 
-	end
+    end
 
-	def render(x)
-		return  (@options[:empty_nil] ? "" : "(missing)") + "\n"
-
-	end
+    def render x
+        (@options[:empty_nil] ? "" : "(missing)") + "\n"
+    end
 
 end
 

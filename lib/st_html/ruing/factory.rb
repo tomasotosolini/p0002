@@ -14,26 +14,27 @@
 # 
 
 require 'st_html'
-
 require 'st_html/ruing/ruing'
+
 
 module StHtml
 module Ruing
 
 class Factory
 
+    
     def Factory.get type, name, *options
 
       raise ruing_exception, 'Parameter(s) missing: type, name' \
               unless type && name && !type.strip.empty? && !name.strip.empty?
         
-        options = extract_va_options(options)
-        folder = options.delete(:elements_folder) 
+        options = extract_va_options options
+        folder = options.delete :elements_folder
 
         if folder 
             begin
 
-                require( "#{folder}/#{type}" )
+                require "#{folder}/#{type}" 
                 klass = "#{type}".camelize
                 eval(klass).new name, options
             rescue ::Exception
@@ -44,7 +45,7 @@ class Factory
         else
 
             begin
-                require( File.join( File.dirname(__FILE__), "elements", type.to_s ) )
+                require File.join( File.dirname(__FILE__), "elements", type.to_s ) 
                 klass = 'StHtml::Ruing::Elements::' + type.to_s.camelize
                 eval(klass).new name, options
             rescue ::Exception

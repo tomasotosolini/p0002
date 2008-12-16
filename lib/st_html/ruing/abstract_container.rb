@@ -13,11 +13,10 @@
 #   Please contact at gmail: tomaso.tosolini
 # 
 
-require( 'st_html' )
+require 'st_html' 
+require 'st_html/support/util' 
+require 'st_html/ruing/containers/behaviors' 
 
-require( 'st_html/support/util' )
-
-require( 'st_html/ruing/containers/behaviors' )
 
 module StHtml
 module Ruing
@@ -25,15 +24,16 @@ module Ruing
 class AbstractContainer < AbstractItem
 
     
-    def initialize(n, *container_options)
+    def initialize n, *container_options
         
-        super n, extract_va_options(container_options)
+        super
 
         @items = []
     end
 
 
     def items name_or_index=nil
+        
         return @items if name_or_index.nil?
 
           # when receiving an index is easy...
@@ -141,9 +141,8 @@ class AbstractContainer < AbstractItem
         @items.each do |item|
             return true if item.has_value?  
         end
-        return false
+        false
     end
-
 
 
     def value
@@ -152,21 +151,23 @@ class AbstractContainer < AbstractItem
         @items.each do |x|
             rv[x.name] = x.value
         end
-        return rv
+        rv
     end
 
-
-    def value=( h )
-        raise( St::Html::Form3::Exceptions::FormException, "Value must be a not null hash.") if h.nil? || !h.is_a?(Hash)
-
-        @items.each do |x|
-            if x.is_a?(AbstractGroup)
-                x.value=( h[x.name].nil? ? {} : h[x.name] )
-            else
-                x.value= h[x.name] 
+    def value= h 
+        raise ruing_exception, \
+                "Value must be a not null hash." if !h.nil? && !h.is_a?(Hash)
+        if h.nil? then
+            self.value= {}
+        else
+            @items.each do |x|
+                if x.is_a?(AbstractContainer)
+                    x.value=( h[x.name].nil? ? {} : h[x.name] )
+                else
+                    x.value= h[x.name] 
+                end
             end
         end
-
     end
 
 
@@ -175,33 +176,30 @@ class AbstractContainer < AbstractItem
     def item_tree
         rv = {}
         @items.each do |x|
-            rv[x.name] = x.is_a?(AbstractGroup) ?  x.items : x
+            rv[x.name] = x.is_a?(AbstractContainer) ?  x.item_tree : x
         end
-        return rv
+        rv
     end
 
+    # ?
     def group_tree
         rv = {}
         @items.each do |x|
-            rv[x.name] = x if x.is_a?(AbstractGroup)
+            rv[x.name] = x.group_tree if x.is_a?(AbstractContainer)
         end
-        return rv
+        rv
     end
 
-
-
-
-
-
-protected
-
-    def raw_items
-        return @items
-    end
-    def raw_items=( x )
-        @items = x
-    end
-
+    
+#    protected
+#
+#    
+#    def raw_items
+#        @items
+#    end
+#    def raw_items= x 
+#        @items = x
+#    end
 
 end
     

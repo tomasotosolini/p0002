@@ -14,8 +14,8 @@
 # 
 
 require 'st/html/ruing/ruing'
-
 require 'support/util'
+
 
 module StHtml
 module Ruing
@@ -23,9 +23,10 @@ module Ruing
 module ActionListener
 
     def action_performed
+        
         action_source = params[:action_source]
-        if respond_to?("action_#{action_source}_request")
-            rendered = send("action_#{action_source}_request") 
+        if respond_to? "action_#{action_source}_request"
+            rendered = send "action_#{action_source}_request" 
         else
             raise StHtml::Ruing::Exception, \
                 "action_extensions: method action_#{action_source}_request " \
@@ -37,16 +38,15 @@ end
 
 class AbstractAction
 
-    attr( :name, true )
-    attr( :action_id, true )
-    attr( :controller, true )
-    attr( :parameters, true )
-
-    attr( :options, true )
+    attr :name, true 
+    attr :action_id, true 
+    attr :controller, true 
+    attr :parameters, true 
+    attr :options, true 
 
     # we don want that values assigned here are modified for external operations
-    def initialize( name, controller, *opt )
-        @options = extract_va_options( opt )
+    def initialize name, controller, *action_options 
+        @options = extract_va_options action_options 
 
         @name = name
         @action_id = name
@@ -66,7 +66,7 @@ class AbstractAction
     private 
 
         # this copies recursively the hash but only if it hasn't objects within...
-    def copy_easy_hash(hash)
+    def copy_easy_hash hash
         rv = {}
         hash.keys.each do |k|
             rv[k] = hash[k].is_a?(Hash) ? copy_easy_hash(hash[k]) : hash[k]

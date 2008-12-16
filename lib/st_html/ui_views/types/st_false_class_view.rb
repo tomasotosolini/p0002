@@ -13,10 +13,9 @@
 #   Please contact at gmail: tomaso.tosolini
 # 
 
-require File.dirname(__FILE__) + "/st_boolean_view" 
+require File.dirname(__FILE__) + '/st_boolean_view'
 
 class StFalseClassView < StBooleanView
-
 
 end
 

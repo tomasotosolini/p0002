@@ -14,9 +14,7 @@
 # 
 
 require 'st_html'
-
 require 'builder'
-
 require 'support/util'
 
 
@@ -29,16 +27,16 @@ class AbstractRenderer
     # Options set by the renderer, regardless of the objects it will
     # render. Set at renderer creation
     #
-    attr( :options, true )
+    attr :options, true 
 
     #
     # Render options set by wrapper object 
     #
-    attr( :ro, true )
+    attr :ro, true 
 
 
-    def initialize( *opt )
-        @options = extract_va_options opt 
+    def initialize *renderer_options 
+        @options = extract_va_options renderer_options 
 
         @ro = nil
         @fro = nil
@@ -48,34 +46,34 @@ class AbstractRenderer
     #
     # This is the most important for this class :)
     #
-    def render(x, *renderoptions)
+    def render x, *render_options
         #
         # renderoptions must always be reset
         #
-        @ro = extract_va_options(renderoptions)
-        build_final_render_options(x) 
+        @ro = extract_va_options render_options
+        build_final_render_options x 
         
     end
 
     # TODO Maybe less visible?
-    def has_render_option?(_option)
+    def has_render_option? option
         build_final_render_options( nil ) unless @fro
-        return @fro.has_key?(_option)
+        @fro.has_key? option
     end
 
     def cached?
         return @options.has_key?(:cache) && @options[:cache]
     end
-    def cache( x )
+    def cache x 
         @options[:cache] = x
     end
 
-    # this thethod fully replaces the ui element originating from x
-    def update(page, x, *renderoptions)
+    # this method fully replaces the ui element originating from x
+    def update page, x, *render_options
         #
         # renderoptions must always be reset
         #
-        @ro = extract_va_options(renderoptions) 
+        @ro = extract_va_options render_options
 
         if !x.nil? \
               && x.respond_to?(:items) \
@@ -83,15 +81,15 @@ class AbstractRenderer
               && !x.renderer.nil? \
               && x.renderer.is_a?(AbstractRenderer)
 
-            if x.respond_to?(:items)
+            if x.respond_to? :items
 
-                page.replace( x.get_input_id, x.renderer.render(x, @ro) )
+                page.replace x.get_input_id, x.renderer.render(x, @ro) 
                   # Groups use input instead of item the real operation is done 
                   # by render so here we have only to allow it to receive 
                   # renderoptions
             else
 
-                page.replace( x.get_item_id, x.renderer.render(x, @ro) )
+                page.replace x.get_item_id, x.renderer.render(x, @ro) 
                   # the real operation is done by render so here we have only 
                   # to allow it to receive renderoptions
             end
@@ -157,18 +155,18 @@ class AbstractRenderer
     # with, so before the rendering start we must merge in the right
     # order the options set at renderer creation with the onen given 
     # later.
-    attr( :fro )
+    attr :fro 
       #
       # final_render_options
 
     # optimization: scrivendo e leggendo qui si evita di accedere 
     # attraverso la has che sara un po piu lenta
-    attr( :rb, true )
+    attr :rb, true 
       #
       # rbuilder 
 
-    def self.get_builder( *bo )
-        Builder::XmlMarkup.new( { :indent => 4 }.merge(extract_va_options( bo )) )
+    def AbstractRenderer.get_builder *builder_options 
+        Builder::XmlMarkup.new( { :indent => 4 }.merge(extract_va_options( builder_options )) )
     end
 
     # resolution order for rendering options most important come later
@@ -180,7 +178,7 @@ class AbstractRenderer
     #   4. Render forced_option of the element to be rendered 
     #       -> self.forced_options[:render]
     #
-    def build_final_render_options(x)
+    def build_final_render_options x
 
         return if cached?  
 

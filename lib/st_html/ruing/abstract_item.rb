@@ -15,37 +15,36 @@
 
 require 'support/util'
 
+
 module StHtml
 module Ruing
 
 class AbstractItem
 
 
-    attr( :options, true )
-    attr( :forced_options )
-
-    attr( :name,    true )
-
-    attr( :value,   true )
-
-
-    attr( :client_attributes,    true )
-    # client_attributes e' una hash dove e' possibile salvare informazioni arbitrarie.
+    attr :options, true
+    attr :name, true
+    attr :value, true
+    attr :client_attributes, true
+      # client_attributes an hash where client may store their informations
 
 
-    def initialize(n, *itemoptions)
+    def initialize n, *item_options
 
         if n.nil? || n.to_s.strip.empty? then 
             raise StHtml::Ruing::Exception, \
                 'Item name must be a not empty string or symbol.' 
         end
 
-
         @name = n 
-        @options = { :force => {} }.merge( extract_va_options( itemoptions ) )
+        @options = { :force => {} }.merge( extract_va_options( item_options ) )
         @client_attributes = { }
 
-        self.value= @options.delete(:value) if @options[:value]
+        @value = if @options[:value]
+            @options.delete(:value) 
+        else
+          nil
+        end
     end
 
 

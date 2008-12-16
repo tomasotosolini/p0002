@@ -14,7 +14,6 @@
 # 
 
 require 'st_html'
-
 require 'support/util'
 
 
@@ -29,15 +28,14 @@ class AbstractValidator
     WRONG   = 2
 
         # Validator creation time options
-    attr( :options, true )
-
-    attr( :response, true )
-    attr( :validation_info, true )
+    attr :options, true 
+    attr :response, true 
+    attr :validation_info, true 
 
 
     # we don want that values assigned here are modified for external operations
-    def initialize( *opt )
-        @options = extract_va_options opt 
+    def initialize *validator_options 
+        @options = extract_va_options validator_options 
         @response = UNKNOWN
         @validation_info = {
             :message => nil,
@@ -68,7 +66,7 @@ class AbstractValidator
 
     # let's raise the obligatory flag....
     def force_validation x
-        x.options.merge( { :obligatory => true } )
+        x.options.merge :obligatory => true 
         validate x
         x.options.delete :obligatory
     end

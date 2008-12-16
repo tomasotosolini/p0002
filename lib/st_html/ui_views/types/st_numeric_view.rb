@@ -19,16 +19,15 @@ require 'st_html/ui_views/abstract_view'
 class StNumericView < StHtml::UiViews::AbstractView
 
 
-    def initialize(*_options)
+    def initialize *view_options
         super( {
                 :new_line => false,
-        }.merge( extract_va_options(_options) ) )
-
+        }.merge( extract_va_options(view_options) ) )
     end
 
 
-    def render(x)
-        return  x.to_s + (@options[:new_line] ? "\n" : "")
+    def render x
+        x.to_s + (@options[:new_line] ? "\n" : "")
     end
 end
 

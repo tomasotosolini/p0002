@@ -18,18 +18,17 @@ require 'st_html/ui_views/abstract_view'
 
 class StStringView < StHtml::UiViews::AbstractView
 
-
-    def initialize(*_options)
-        
+    
+    def initialize *view_options
         super( {
                 :prefix => "",
                 :empty_nil => false,
                 :new_line => false,
-        }.merge( extract_va_options(_options) ) )
+        }.merge( extract_va_options(view_options) ) )
     end
 
 
-    def render(x)
+    def render x
       if x.nil? then
         @options[:empty_nil] ? "" : "nil"
       else
