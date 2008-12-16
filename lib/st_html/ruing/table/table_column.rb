@@ -14,7 +14,6 @@
 # 
 
 require 'st_html'
-
 require 'support/util'
 
 
@@ -24,23 +23,21 @@ module Table
 
 class TableColumn
 
-    attr( :cell_item, true ) # the renderer for the data in this column
+    
+    attr :cell_item, true # the renderer for the data in this column
 
-    attr( :header, true ) # the header value
-    attr( :header_item, true ) # the header item
+    attr :header, true # the header value
+    attr :header_item, true # the header item
 
-    attr( :identifier, true )  # the column who is interested
+    attr :identifier, true # the column who is interested
 
-    def initialize( *opt )
-        options = extract_va_options( opt )
+    def initialize *column_options
+        options = extract_va_options column_options 
 
-        @cell_item = options.delete(:cell_item)
-
-        @header_item = options.delete(:header_item) || @cell_item
-
-        @identifier = options.delete(:identifier) 
-
-        @header = options.delete(:header) || @identifier 
+        @cell_item = options.delete :cell_item
+        @header_item = options.delete( :header_item ) || @cell_item
+        @identifier = options.delete :identifier 
+        @header = options.delete( :header ) || @identifier 
     end
 
 end

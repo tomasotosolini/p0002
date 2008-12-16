@@ -41,11 +41,11 @@ class BorderLayout
     BOTTOM = 	3
     LEFT =	4
 
-    attr( :layout_components )
+    attr :layout_components 
 
-    def initialize(*layoutoptions)
+    def initialize *layout_options
         
-        lo = extract_va_options( layoutoptions )
+        lo = extract_va_options layout_options 
             # TODO forse qui si puo prevedere di togliere pezzi ecc...
 
         #
@@ -79,7 +79,7 @@ class BorderLayout
     end
 
 
-    def add(item)
+    def add item
         add nil, item
     end
     def add layout_constraint, component
@@ -92,8 +92,8 @@ class BorderLayout
         @layout_components[layout_constraint] = nil
     end
 
-    def layout *layoutoptions
-        lo = extract_va_options layoutoptions
+    def layout *layout_options
+        lo = extract_va_options layout_options
 
         b = lo[:builder] || Builder::XmlMarkup.new(:indent=>2)
 
