@@ -27,6 +27,7 @@
 require 'st_html/ruing/ruing'
 require 'st_html/ruing/abstract_renderer'
 
+
 module StHtml
 module Ruing
 module Elements
@@ -38,18 +39,20 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
     attr :wrapper_attributes, true
     attr :attributes, true
 
-    attr( :ui_view, true )
+    attr :ui_view, true 
 
-    def initialize *opt
+    def initialize *renderer_options
 
         super
         
         @wrapper_attributes = nil
         @attributes = nil
-        @ui_view = nil
+        @ui_view = options.delete :ui_view
+          #
+          # ui_view can be come with the renderer_options
     end
     
-    def render x, *renderoptions
+    def render x, *render_options
 
         super
           #
@@ -180,7 +183,7 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
         #
         # Exit immediately when cached
         #
-        return if cached?
+        return if cached? || @ui_view
         
         #
         # Preferring client view 
@@ -212,7 +215,7 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
 
         if o.has_key? _for
 
-            o[_for].delete(:id) # :id is created internally, ignoring others
+            o[_for].delete :id # :id is created internally, ignoring others
             
             if o[_for][:class]
                 #
@@ -220,9 +223,9 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
                 store[:class] << " " + ( o[_for][:class].is_a?(Array) ? 
                                                     o[_for][:class].join(" ") : 
                                                     o[_for][:class] )
-                o[_for].delete(:class)
+                o[_for].delete :class
             end
-            store.merge!( o[_for] )
+            store.merge! o[_for] 
               #
               # Record what remains
         end

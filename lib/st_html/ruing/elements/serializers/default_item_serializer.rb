@@ -24,17 +24,9 @@ class DefaultItemSerializer < StHtml::Ruing::AbstractSerializer
     
     def value_from_params x, params
         
-        value_hash = {}
-        x.get_input_keys.each do |input_key, input_name|
-            value_hash[ input_key ] = params[ input_name ]
-        end
-        x.value=( value_hash )
+        x.value= params[ x.input_id ]
     end
     
-        
-    def load_from_flattened_hash(element, hash)
-        element.value= hash[element.get_input_id]
-    end
 end
     
 end

@@ -30,21 +30,23 @@
 require 'st_html/ruing/elements/default_item'
 require 'st_html/ruing/elements/renderers/text_field_renderer'
 
+
 module StHtml
 module Ruing
 module Elements
         
 class TextField < DefaultItem
 
-    def initialize(n, *textfieldoptions)
+    def initialize n, *textfield_options
 
-        tfo = extract_va_options(textfieldoptions)
+        tfo = extract_va_options textfield_options
         
-        self.renderer= StHtml::Ruing::Elements::Renderers::TextFieldRenderer.new( 
-                { :ui_view_factory => StHtml::UiViews::Factory }.merge( tfo.delete(:renderer_options) || {} ) )
-            
-        super(n, tfo )
-
+        self.renderer= tfo.delete(:renderer) || 
+                StHtml::Ruing::Elements::Renderers::TextFieldRenderer.new( { \
+                        :ui_view_factory => StHtml::UiViews::Factory }.merge( \
+                                tfo.delete(:renderer_options) || {} ) ) 
+        
+        super n, tfo 
     end
 
 end

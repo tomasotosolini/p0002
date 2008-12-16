@@ -15,6 +15,7 @@
 
 require 'st_html/ruing/elements/renderers/default_item_renderer'
 
+
 module StHtml
 module Ruing
 module Elements
@@ -22,15 +23,12 @@ module Renderers
                             
 class TextFieldRenderer < DefaultItemRenderer 
 
-    def render_input(x)
+    def render_input x
 
         return super { |element, attributes, ui_view, builder, irenderoptions|
 
-            attributes[:type] = :text
-
-            attributes[:value] = ui_view.render(element.value)
-
-            builder.input(attributes) 
+            builder.input( attributes.merge( :type => :text, \
+              :value => ui_view.render(element.value) ) ) 
         }
 
     end

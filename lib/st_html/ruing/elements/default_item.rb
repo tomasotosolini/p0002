@@ -26,7 +26,6 @@
 
 require 'st_html/ruing/abstract_item'
 require 'st_html/ruing/elements/copyable'
-
 require 'st_html/ruing/elements/renderers/default_item_renderer'
 
 
@@ -39,14 +38,14 @@ class DefaultItem < StHtml::Ruing::AbstractItem
 
     include Copyable # This is to put items in Clones Container.
 
-    attr( :validators, true )
-    attr( :renderer, true )
-    attr( :editor, true )
-    attr( :serializer, true )
-    attr( :session, true )
+    attr :validators, true 
+    attr :renderer, true 
+    attr :editor, true 
+    attr :serializer, true 
+    attr :session, true 
 
 
-    def initialize(n, *itemoptions)
+    def initialize n, *item_options
         
         super
 
@@ -79,8 +78,8 @@ class DefaultItem < StHtml::Ruing::AbstractItem
         #
 #        self.options.delete( :validators )
 
-        self.options.delete( :renderer )
-        self.options.delete( :renderer_options )
+        self.options.delete :renderer 
+        self.options.delete :renderer_options 
 
 #        self.options.delete( :serializer )
 #        self.options.delete( :serializer_options )
@@ -99,7 +98,7 @@ class DefaultItem < StHtml::Ruing::AbstractItem
     def copy
         
         rv = unless block_given? 
-            DefaultItem.new(nil, self.options)
+            DefaultItem.new nil, self.options
         else
             yield(self.options) || nil
         end
@@ -107,23 +106,24 @@ class DefaultItem < StHtml::Ruing::AbstractItem
         unless rv.nil?
             rv.name= self.name
             rv.value = self.value
-            rv.validators= @validators
-            rv.renderer= @renderer
-            rv.serializer= @serializer
-            rv.editor= @editor
+            rv.validators= @validators.map { |x| x.copy }
+            rv.renderer= @renderer.copy
+            rv.serializer= @serializer.copy
+            rv.editor= @editor.copy
+            rv.session = @session
         end
 
         rv
     end
 
     
-    def render *renderoptions
-        renderoptions = extract_va_options renderoptions
-        renderer.render self, renderoptions
+    def render *render_options
+        render_options = extract_va_options render_options
+        renderer.render self, render_options
     end
-    def render_ *renderoptions
-        renderoptions = extract_va_options renderoptions
-        renderer.render self, renderoptions.merge( { :editable => false } )
+    def render_ *render_options
+        render_options = extract_va_options render_options
+        renderer.render self, render_options.merge( { :editable => false } )
     end
 end
 

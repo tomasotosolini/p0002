@@ -15,6 +15,7 @@
 
 require 'st_html/ruing/ruing'
 
+
 module StHtml
 module Ruing
 module Elements
@@ -26,7 +27,7 @@ module Copyable
     #
     def copy
         
-        raise StHtml::Ruing::Exception, \
+        raise ruing_exception, \
                 "Client class must reimplement this method: copy"
     end
 end

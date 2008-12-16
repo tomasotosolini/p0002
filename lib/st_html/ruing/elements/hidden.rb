@@ -17,19 +17,25 @@ require 'st_html/ruing/elements/default_item'
 require 'st_html/ruing/elements/renderers/hidden_renderer'
 require 'st_html/ui_views/factory'
 
+
 module StHtml
 module Ruing
 module Elements
 
 class Hidden < DefaultItem
 
-    def initialize(n, *hiddenoptions)
+    def initialize n, *hidden_options
 
-        ho = extract_va_options(hiddenoptions)
+        ho = extract_va_options hidden_options
         
-        self.renderer= StHtml::Ruing::Elements::Renderers::HiddenRenderer.new \
-                 :ui_view => StHtml::UiViews::Factory.get( 'string', :empty_nil => true ) 
-            
+        #
+        # renderer_options are not allowed for hidden, it has only to carry values
+        # without more features
+        #
+        self.renderer= StHtml::Ruing::Elements::Renderers::HiddenRenderer.new( \
+                 :ui_view => StHtml::UiViews::Factory.get( 'string', \
+                     :empty_nil => true ) )
+           
         super n, ho 
     end
 
