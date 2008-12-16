@@ -11,6 +11,17 @@
 # 
 #   Copyright Tomaso Tosolini/Stefano Salvador - 2007-2074
 #   Please contact at gmail: tomaso.tosolini
+#
+
+# What means this test?
+#
+# This test is often required because xml builder tend to swap output substring
+# without control, so it is unpredictable whether the output will be
+# <tag option1=value1 option2=value2 >...</tag>
+# or
+# <tag option2=value2 option1=value1 >...</tag>
+# Since for out purphose the two outputs are equivalent, we must ba able to 
+# check the substring presence rather that the whole output.
 # 
 
 require 'rubygems'
@@ -25,19 +36,19 @@ class Test::Unit::TestCase
         @l = list
         @s = str
         process
-        assert list.size.eql?(0) && str.strip.empty?, message || "Still have components. list=#{list}, #{str}"
+        assert @l.size.eql?(0) && @s.strip.empty?, message || "Still have components. list=(#{@l.join(',')}), str=(#{@s})"
     end
     def assert_not_same_substrings list, str, message=nil
         @l = list
         @s = str
         process 
-        assert !(list.size.eql?(0) && str.strip.empty?), message || "Same components. list=#{list}, #{str}"
+        assert !(@l.size.eql?(0) && @s.strip.empty?), message || "Same components. list=(#{@l.join(',')}), str=(#{@s})"
     end
     def assert_substrings_cover list, str, message=nil
         @l = list
         @s = str
         process
-        assert( (list.size >= 0) && str.strip.empty?, message || "Substring don't cover. list=#{list}, #{str}")
+        assert( (@l.size >= 0) && @s.strip.empty?, message || "Substring don't cover. list=(#{@l.join(',')}), str=(#{@s})")
     end
     private
     def process 
