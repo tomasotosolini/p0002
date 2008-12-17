@@ -1,55 +1,77 @@
-= StHtml
+h2. StHtml
 
-==Introduction
+h3. Introduction
 
-Developers often are required to present *forms* to thier users and gather
+p{text-align: justify}. Developers often are required to present *forms* to thier users and gather
 informations users reply. If you are a ruby web developer this gem may be useful
 since aims to make this things more easy, keeping you away from html forms and
 parameter handling noise.
 
-==Example
+h3. Example
 
-The form with login, full user name, address stuff, password (with confirm) to 
+p{text-align: justify}. The form with login, full user name, address stuff, password (with confirm) to 
 be presented in your amazing brand new social web portal. Once user has 
 submitted her values you should gather the collected info, the you'd like to 
 validate them in order to prevent missing or wrong fields. Next it would be nice 
 to present a report with the saved values (not the passwords though), with 
 additional info about the pin and the supplementary passfrase.
 
-So at a glance with StHtml you can do this quite easily, we hope.
+p{text-align: justify}. So at a glance with StHtml you can do this quite easily, we hope.
 
-Create a Form object
+p{text-align: justify}. Create a Form object
 
+<pre>
 register_form = Form.new
 
-add it with the fields:
+p{text-align: justify}. add it with the fields:
 
+<pre>
 login = register_form.add( "string", "login" ) 
 register_form.add( "string", "full_name" ) 
 register_form.add( "text", "address" ) 
 register_form.add( "password", "pass" ) 
 register_form.add( "password", "passc" ) 
+</pre>
 
 
-add validation stuff:
+p{text-align: justify}. add validation stuff:
 
+<pre>
+<code>
 login.validators << NotNullValidator
 register_form.validators << FieldsEqual.new "pass", "passc" 
+</code>
+</pre>
 
 
-Next when you want to show this form:
+p{text-align: justify}. Next when you want to show this form:
 
+<pre>
+<code>
 register_form.render
+</code>
+</pre>
 
-Once user posts her new data
+p{text-align: justify}. Once user posts her new data
 
+<pre>
+<code>
 register_form.load
+</code>
+</pre>
 
-to validate:
+p{text-align: justify}. to validate:
 
+<pre>
+<code>
 register_form.validate
+</code>
+</pre>
 
-to show the report:
+p{text-align: justify}. to show the report:
 
+<pre>
+<code>
 register_form.render_
-
+</code>
+</pre>
