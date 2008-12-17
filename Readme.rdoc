@@ -2,7 +2,7 @@
 
 ==Introduction
 
-Developers often are required to present *forms* to thier users and gather
+Developers often are required to present *forms* to their users and gather
 informations users reply. If you are a ruby web developer this gem may be useful
 since aims to make this things more easy, keeping you away from html forms and
 parameter handling noise.
@@ -18,38 +18,37 @@ additional info about the pin and the supplementary passfrase.
 
 So at a glance with StHtml you can do this quite easily, we hope.
 
-Create a Form object
+Create a Form object 
 
-register_form = Form.new
+    register_form = Form.new
+    register_form = Form.new
+    register_form = Form.new
 
 add it with the fields:
 
-login = register_form.add( "string", "login" ) 
-register_form.add( "string", "full_name" ) 
-register_form.add( "text", "address" ) 
-register_form.add( "password", "pass" ) 
-register_form.add( "password", "passc" ) 
-
+    login = register_form.add "string", "login"  
+    register_form.add "string", "full_name"  
+    register_form.add "text", "address"  
+    register_form.add "password", "pass"  
+    register_form.add "password", "passc"  
 
 add validation stuff:
 
-login.validators << NotNullValidator
-register_form.validators << FieldsEqual.new "pass", "passc" 
-
+    login.validators << NotNullValidator
+    register_form.validators << FieldsEqual.new "pass", "passc" 
 
 Next when you want to show this form:
 
-register_form.render
+    register_form.render
 
 Once user posts her new data
 
-register_form.load
+    register_form.load
 
 to validate:
 
-register_form.validate
+    register_form.validate
 
 to show the report:
 
-register_form.render_
-
+    register_form.render_
