@@ -20,9 +20,11 @@ module StHtml
 module Ruing
 module Elements
 module Renderers
-                    
+
+    
 class HiddenRenderer < DefaultItemRenderer 
 
+    
     def render x, *renderoptions
 
         super { |element, attributes, builder, irenderoptions|
@@ -38,8 +40,9 @@ class HiddenRenderer < DefaultItemRenderer
 
         return super { |element, attributes, ui_view, builder, irenderoptions|
 
-            builder.input( attributes.merge(:type => :hidden, \
-              :value => ui_view.render(element.value) ) )
+            builder.input 
+                attributes.merge(:type => :hidden, 
+                    :value => ui_view.render(element.value) ) 
         }
     end
 end

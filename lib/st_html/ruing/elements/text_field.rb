@@ -41,6 +41,16 @@ class TextField < DefaultItem
 
         tfo = extract_va_options textfield_options
         
+        #
+        # The idea here is to force a specific renderer for this component, 
+        # unless clients do not supply one by themselves using the :renderer 
+        # option.
+        # 
+        # NOTE: we do not check if the renderer supplied by client is really a 
+        # text field renderer because if this is not so it is a client's choice
+        # (we also hope a conscious one). A similar mechanism is found also 
+        # in other DefaultItem's descendants
+        #
         self.renderer= tfo.delete(:renderer) || 
                 StHtml::Ruing::Elements::Renderers::TextFieldRenderer.new( { \
                         :ui_view_factory => StHtml::UiViews::Factory }.merge( \

@@ -12,6 +12,7 @@
 #   Copyright Tomaso Tosolini/Stefano Salvador - 2007-2074
 #   Please contact at gmail: tomaso.tosolini
 # 
+
 require 'st_html/support/util'
 require 'st_html/ruing/elements/default_item'
 require 'st_html/ruing/elements/renderers/hidden_renderer'
@@ -28,6 +29,8 @@ class Hidden < DefaultItem
 
         ho = extract_va_options hidden_options
         
+        #
+        # Forcing the renderer as described in TextField
         #
         # renderer_options are not allowed for hidden, it has only to carry values
         # without more features
