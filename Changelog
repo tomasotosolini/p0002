@@ -1,5 +1,16 @@
 
 
-version 0.8:
+version 0.8 : November 2008 - ?
     
-    Is a vapor version, everithing is still being defined.
+    Is a vapor version, everithing is still being defined. The primary goal is 
+  to set up a  stable and relaible  framework to import  completely the original 
+  unpublished library at which Stefano and me worked between 2007 and 2008. With
+  this  work  that is also  a rethinking of all the ideas  implemented  in  that 
+  software I hope  that  the result is be a more  rational  and  well  organized 
+  structure.
+    I 'd like to  express my most sincere  thanks to Stefano for the  great work
+  expererience we had until the half of this year. During this two years i could
+  leard many things (expecially ruby) and have so much fun everiday.
+    I hope that it will be possible  sooner or later have again Stefano  helping 
+  me like in the good old days. :) 
+  
