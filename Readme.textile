@@ -21,16 +21,21 @@ p{text-align: justify}. So at a glance with StHtml you can do this quite easily,
 p{text-align: justify}. Create a Form object
 
 <pre>
+<code>
 register_form = Form.new
+</code>
+</pre>
 
 p{text-align: justify}. add it with the fields:
 
 <pre>
+<code>
 login = register_form.add( "string", "login" ) 
 register_form.add( "string", "full_name" ) 
 register_form.add( "text", "address" ) 
 register_form.add( "password", "pass" ) 
 register_form.add( "password", "passc" ) 
+</code>
 </pre>
 
 
