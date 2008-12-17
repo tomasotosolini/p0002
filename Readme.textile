@@ -11,7 +11,7 @@ h3. Example
 
 p{text-align: justify}. The form with login, full user name, address stuff, password (with confirm) to 
 be presented in your amazing brand new social web portal. Once user has 
-submitted her values you should gather the collected info, the you'd like to 
+submitted her values you should gather the collected info, then you'd like to 
 validate them in order to prevent missing or wrong fields. Next it would be nice 
 to present a report with the saved values (not the passwords though), with 
 additional info about the pin and the supplementary passfrase.
