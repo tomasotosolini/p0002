@@ -56,9 +56,9 @@ task :default => [ :clean, :repackage ]
 #
 Rake::RDocTask.new do |rd|
 
-    rd.main = "Readme"
+    rd.main = "Readme.rdoc"
     rd.rdoc_dir = "doc"
-    rd.rdoc_files.include("Readme", "Changelog", "lib/**/*.rb")
+    rd.rdoc_files.include("Readme.rdoc", "Changelog", "lib/**/*.rb")
     rd.title = "StHtml documentation"
     rd.options << '-N' # line numbers
     rd.options << '-S' # inline source
