@@ -30,15 +30,17 @@ class Hidden < DefaultItem
         ho = extract_va_options hidden_options
         
         #
-        # Forcing the renderer as described in TextField
-        #
-        # renderer_options are not allowed for hidden, it has only to carry values
-        # without more features
+        # While in TextField we could have an external renderer given by the 
+        # clients, here we avoid this because hidden element is a little more 
+        # restricted form the "rendering" point of view. Also renderer_options 
+        # are not allowed for hidden for the same reason.
         #
         self.renderer= StHtml::Ruing::Elements::Renderers::HiddenRenderer.new( \
                  :ui_view => StHtml::UiViews::Factory.get( 'string', \
                      :empty_nil => true ) )
            
+        # Uses the same serializer of the DefaultItem
+
         super n, ho 
     end
 
