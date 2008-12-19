@@ -56,6 +56,8 @@ class TextField < DefaultItem
                         :ui_view_factory => StHtml::UiViews::Factory }.merge( \
                                 tfo.delete(:renderer_options) || {} ) ) 
         
+        # Uses the same serializer of the DefaultItem
+        
         super n, tfo 
     end
 
