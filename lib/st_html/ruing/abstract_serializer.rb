@@ -22,7 +22,8 @@ module Ruing
 class AbstractSerializer
 
     attr :options, true 
-    
+      #
+      # Still unsure if used, mybe one day this will be removed.
 
     def initialize *serializer_options 
         @options = extract_va_options( serializer_options )
