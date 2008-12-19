@@ -39,10 +39,13 @@ class HiddenRenderer < DefaultItemRenderer
     def render_input x
 
         return super { |element, attributes, ui_view, builder, irenderoptions|
-
-            builder.input 
-                attributes.merge(:type => :hidden, 
-                    :value => ui_view.render(element.value) ) 
+                  
+            attributes_ = attributes.merge :type => :hidden, \
+                            :value => ui_view.render(element.value) 
+                            
+            attributes_.delete :class
+            
+            builder.input attributes_
         }
     end
 end
