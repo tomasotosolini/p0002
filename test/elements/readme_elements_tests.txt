@@ -13,7 +13,7 @@
 #   Please contact at gmail: tomaso.tosolini
 # 
 
-The minimum tests for all the elements should include:
+The minimum recommended test set for the elements is:
 
 1. 
 The creation test, done with and without the factory
@@ -29,3 +29,12 @@ The render in editable mode
 
 4. 
 The render in not editable mode
+
+5. 
+Serializer initialization test, done with and without the factory
+
+6. 
+De-serialization 
+
+7. 
+Under Group de-serialization 

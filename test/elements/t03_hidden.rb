@@ -75,18 +75,16 @@ class T03_Hidden < Test::Unit::TestCase
       hf = StHtml::Ruing::Factory.get "hidden", "myname"
 
       hf.value="hello"
-      assert_substrings_cover( [ 
+      assert_substrings_digroups_cover( [ 
         %-<input-, 
-        %-type="hidden"-, 
-        %-type="hidden"/>-, 
-        %-class="form_input"-, 
-        %-class="form_input"/>-, 
-        %-id="myname"-, 
-        %-id="myname"/>-, 
-        %-name="myname"-, 
-        %-name="myname"/>-, 
-        %-value="hello"-, 
-        %-value="hello"/>- ], 
+        [%-type="hidden"-, 
+        %-type="hidden"/>-], 
+        [%-id="myname"-, 
+        %-id="myname"/>-], 
+        [%-name="myname"-, 
+        %-name="myname"/>-], 
+        [%-value="hello"-, 
+        %-value="hello"/>-] ], 
           hf.renderer.render(hf) )
         
     end
@@ -96,14 +94,9 @@ class T03_Hidden < Test::Unit::TestCase
       hf = StHtml::Ruing::Factory.get "hidden", "myname"
       
       hf.value="hello"
-      assert_substrings_cover( [ 
-        %-<div-, 
-        %-class="form_item myname"-, 
-        %-class="form_item myname"></div>-, 
-        %-id="myname_item"-, 
-        %-id="myname_item"></div>- ], 
-          hf.renderer.render(hf, :editable => false ) )
-        
+      assert_equal( %--, hf.renderer.render(hf, :editable => false ) )
+        #
+        # It's hidden honey!
     end
     
 end

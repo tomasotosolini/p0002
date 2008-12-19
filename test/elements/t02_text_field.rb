@@ -73,22 +73,22 @@ class T02_TextField < Test::Unit::TestCase
       }
 
       tf.value="hello"
-      assert_substrings_cover( [ 
+      assert_substrings_digroups_cover( [ 
         %-<div-, 
-        %-class="form_item myname"-, 
-        %-class="form_item myname"><input-, 
-        %-id="myname_item"-, 
-        %-id="myname_item"><input-, 
-        %-type="text"-, 
-        %-type="text"/></div>-, 
-        %-class="form_input"-, 
-        %-class="form_input"/></div>-, 
-        %-id="myname"-, 
-        %-id="myname"/></div>-, 
-        %-name="myname"-, 
-        %-name="myname"/></div>-, 
-        %-value="hello"-, 
-        %-value="hello"/></div>- ], 
+        [%-class="form_item myname"-, 
+        %-class="form_item myname"><input-], 
+        [%-id="myname_item"-, 
+        %-id="myname_item"><input-], 
+        [%-type="text"-, 
+        %-type="text"/></div>-], 
+        [%-class="form_input"-, 
+        %-class="form_input"/></div>-], 
+        [%-id="myname"-, 
+        %-id="myname"/></div>-], 
+        [%-name="myname"-, 
+        %-name="myname"/></div>-], 
+        [%-value="hello"-, 
+        %-value="hello"/></div>-] ], 
           tf.renderer.render(tf) )
         
     end
@@ -101,16 +101,16 @@ class T02_TextField < Test::Unit::TestCase
       }
       
       tf.value="hello"
-      assert_substrings_cover( [ 
+      assert_substrings_digroups_cover( [ 
         %-<div-, 
-        %-class="form_item myname"-, 
-        %-class="form_item myname"><div-, 
-        %-id="myname_item"-, 
-        %-id="myname_item"><div-, 
-        %-class="form_value"-, 
-        %-class="form_value">hello</div></div>-, 
-        %-id="myname"-, 
-        %-id="myname">hello</div></div>- ], 
+        [%-class="form_item myname"-, 
+        %-class="form_item myname"><div-], 
+        [%-id="myname_item"-, 
+        %-id="myname_item"><div-], 
+        [%-class="form_value"-, 
+        %-class="form_value">hello</div></div>-], 
+        [%-id="myname"-, 
+        %-id="myname">hello</div></div>-] ], 
           tf.renderer.render(tf, :editable => false ) )
         
     end

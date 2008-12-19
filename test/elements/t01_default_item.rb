@@ -107,12 +107,12 @@ class T01_DefaultItem < Test::Unit::TestCase
       }
 
       di.value="hello"
-      assert_substrings_cover( [ 
+      assert_substrings_digroups_cover( [ 
               %-<div-, 
-              %-class="form_item myname"-, 
-              %-class="form_item myname"></div>-, 
-              %-id="myname_item"-, 
-              %-id="myname_item"></div>- ], 
+              [%-class="form_item myname"-, 
+              %-class="form_item myname"></div>-], 
+              [%-id="myname_item"-, 
+              %-id="myname_item"></div>- ] ], 
           di.renderer.render(di) )
         
     end
@@ -125,16 +125,16 @@ class T01_DefaultItem < Test::Unit::TestCase
       }
 
       di.value="hello"
-      assert_substrings_cover( [ 
+      assert_substrings_digroups_cover( [ 
               %-<div-, 
-              %-class="form_item myname"-, 
-              %-class="form_item myname"><div-, 
-              %-id="myname_item"-,
-              %-id="myname_item"><div-,
-              %-class="form_value"-,
-              %-class="form_value">hello</div></div>-,
-              %-id="myname"-,
-              %-id="myname">hello</div></div>- ], 
+              [%-class="form_item myname"-, 
+              %-class="form_item myname"><div-], 
+              [%-id="myname_item"-,
+              %-id="myname_item"><div-],
+              [%-class="form_value"-,
+              %-class="form_value">hello</div></div>-],
+              [%-id="myname"-,
+              %-id="myname">hello</div></div>-] ], 
         di.renderer.render(di, :editable => false ), 'Wrong rendering.')
 
     end
@@ -148,6 +148,54 @@ class T01_DefaultItem < Test::Unit::TestCase
       assert_equal( di.renderer.render(di), di.render, 'Wrong direct rendering.')
       assert_equal( di.renderer.render(di, :editable => false), di.render_, 'Wrong direct rendering.')
 
+    end
+
+    def test_serializer_initialization
+    
+      din = StHtml::Ruing::Elements::DefaultItem.new "myname"
+      assert_not_nil din.serializer, 'Serializer not initialized.'
+      assert din.serializer.is_a?(StHtml::Ruing::Elements::Serializers::DefaultItemSerializer), 'Serializer wrong.'
+      assert_nil din.serializer.options[:option1], 'Serializer wrong.'
+    
+      din = StHtml::Ruing::Elements::DefaultItem.new "myname", 
+              :serializer => StHtml::Ruing::Elements::Serializers::DefaultItemSerializer.new( :option1 => "a", :option2 => "b" )
+      assert_not_nil din.serializer, 'Serializer not initialized.'
+      assert din.serializer.is_a?(StHtml::Ruing::Elements::Serializers::DefaultItemSerializer), 'Serializer wrong.'
+      assert_equal 'a', din.serializer.options[:option1], 'Serializer wrong.'
+      assert_equal 'b', din.serializer.options[:option2], 'Serializer wrong.'
+      assert_nil din.serializer.options[:option3], 'Serializer wrong.'
+
+      din = StHtml::Ruing::Elements::DefaultItem.new "myname", :serializer_options => { :option1 => "a", :option2 => "b" }
+      assert_not_nil din.serializer, 'Serializer not initialized.'
+      assert din.serializer.is_a?(StHtml::Ruing::Elements::Serializers::DefaultItemSerializer), 'Serializer wrong.'
+      assert_equal 'a', din.serializer.options[:option1], 'Serializer wrong.'
+      assert_equal 'b', din.serializer.options[:option2], 'Serializer wrong.'
+      assert_nil din.serializer.options[:option3], 'Serializer wrong.'
+
+      # Factory has same behavior as demonstrated by elements/t00_factory
+    end
+
+    def test_deseriaziation
+        
+        di = StHtml::Ruing::Factory.get "default_item", "myname"
+        
+        di.serializer.value_from_params di, { 'myname' => 'value1' }
+        assert_equal 'value1', di.value, 'Wrond de-serialization'
+        
+        di.serializer.value_from_params di, {  }
+        assert_equal nil, di.value, 'Wrond de-serialization'
+    end
+    def test_under_group_deseriaziation
+        
+        container = StHtml::Ruing::AbstractContainer.new "mycontainer"
+        di = StHtml::Ruing::Factory.get "default_item", "myname"
+        container.add di
+        
+        di.serializer.value_from_params di, { 'mycontainer.myname' => 'value1' }
+        assert_equal 'value1', di.value, 'Wrond de-serialization'
+        
+        di.serializer.value_from_params di, { 'myname' => 'value1' }
+        assert_equal nil, di.value, 'Wrond de-serialization'
     end
     
 end
