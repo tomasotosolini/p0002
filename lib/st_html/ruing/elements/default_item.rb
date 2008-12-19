@@ -58,9 +58,10 @@ class DefaultItem < StHtml::Ruing::AbstractItem
                     self.options[:renderer_options] || {}  ) \
                 unless @renderer
         
-#        @serializer = self.options[:serializer] \
-#                || StHtml::Ruing::Elements::Serializers::ItemSerializer.new( \
-#                    self.options[:serializer_options] )
+        @serializer = self.options[:serializer] \
+                 || StHtml::Ruing::Elements::Serializers::DefaultItemSerializer.new( \
+                    self.options[:serializer_options] || {}  ) \
+                 unless @serializer
                     
         @editor = nil
         
