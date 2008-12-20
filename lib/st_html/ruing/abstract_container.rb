@@ -23,14 +23,30 @@ module Ruing
 
 class AbstractContainer < AbstractItem
 
-    
+    #
+    # Setting :transparent => true makes this container act as a simple rendering 
+    # container that will have no influence on the name of the contained 
+    # elements.
+    # 
+    # Important note: it's not possible set a container transparent after 
+    # creation, because this property determines a behavior of the contained 
+    # items, so it would be possible to set transparent also a container that 
+    # already contains items, but in the latter case the items aren't updated
+    # accordingly. This could be handled resyncing sub-items recoursively but 
+    # this would be more complex, so for simplicity we set up thing in this way.
+    # Perhaps if needed in the future we will make things more flexible.
+    #
     def initialize n, *container_options
         
-        super
+        super n, { :transparent => false }.merge( 
+            extract_va_options(container_options) )
 
         @items = []
     end
 
+    def transparent?
+        self.options[:transparent]
+    end
 
     def items name_or_index=nil
         
@@ -77,7 +93,8 @@ class AbstractContainer < AbstractItem
           # perhaps we also are not primordial elements
         item.client_attributes[:parent][:chain] = \
             (client_attributes.has_key?(:parent) ? \
-              client_attributes[:parent][:chain] : [] ) + [name.to_s]
+              client_attributes[:parent][:chain] : [] ) + \
+                ( transparent? ? [] : [name.to_s] )
               
           # when dealing with containers, let them update their children too
         if item.is_a? AbstractContainer

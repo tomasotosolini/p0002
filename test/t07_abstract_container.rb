@@ -217,5 +217,25 @@ class T07_AbstractContainer < Test::Unit::TestCase
         x = { 'item1' => i1, 'item2' => i2 }
         assert_equal x, l3.item_tree['level1']['level2'], 'Wrong item.'
     end
+    
+    def test_null_path
+        
+        # setup
+        l1 = StHtml::Ruing::AbstractContainer.new "level1", :transparent => true
+        l2 = StHtml::Ruing::AbstractContainer.new "level2"
+        l3 = StHtml::Ruing::AbstractContainer.new "level3"
+        i1 = StHtml::Ruing::AbstractItem.new "item1"
+        i2 = StHtml::Ruing::AbstractItem.new "item2"
+        
+        l2.add i1
+        l2.add i2
+        l1.add l2
+        l3.add l1
+        
+        # assertions
+        assert_equal 'level3.level2.item1', i1.input_id, 'Item1 name wrong'
+        assert_equal 'level3.level2.item2', i2.input_id, 'Item2 name wrong'
+    end
+    
 end
 
