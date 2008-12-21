@@ -177,4 +177,85 @@ class T04_Check < Test::Unit::TestCase
         assert !cf.value, 'Wrond de-serialization'
       
     end
+    
+    def test_serializer_initialization
+    
+      cn = StHtml::Ruing::Elements::Check.new "myname"
+      assert_not_nil cn.serializer, 'Serializer not initialized.'
+      assert cn.serializer.is_a?(StHtml::Ruing::Elements::Serializers::CheckSerializer), 'Serializer wrong.'
+      assert_nil cn.serializer.options[:option1], 'Serializer wrong.'
+    
+      cn = StHtml::Ruing::Elements::Check.new "myname", 
+              :serializer => StHtml::Ruing::Elements::Serializers::CheckSerializer.new( :option1 => "a", :option2 => "b" )
+      assert_not_nil cn.serializer, 'Serializer not initialized.'
+      assert cn.serializer.is_a?(StHtml::Ruing::Elements::Serializers::CheckSerializer), 'Serializer wrong.'
+      assert_equal 'a', cn.serializer.options[:option1], 'Serializer wrong.'
+      assert_equal 'b', cn.serializer.options[:option2], 'Serializer wrong.'
+      assert_nil cn.serializer.options[:option3], 'Serializer wrong.'
+
+      cn = StHtml::Ruing::Elements::Check.new "myname", :serializer_options => { :option1 => "a", :option2 => "b" }
+      assert_not_nil cn.serializer, 'Serializer not initialized.'
+      assert cn.serializer.is_a?(StHtml::Ruing::Elements::Serializers::CheckSerializer), 'Serializer wrong.'
+      assert_equal 'a', cn.serializer.options[:option1], 'Serializer wrong.'
+      assert_equal 'b', cn.serializer.options[:option2], 'Serializer wrong.'
+      assert_nil cn.serializer.options[:option3], 'Serializer wrong.'
+
+      # Factory has same behavior as demonstrated by elements/t00_factory
+    end
+
+    def test_deserialization
+        
+        c = StHtml::Ruing::Factory.get "check", "myname"
+        
+        c.serializer.value_from_params c, { 'myname' => 'on' }
+        assert c.value, 'Wrond de-serialization'
+        
+        c.serializer.value_from_params c, { 'myname' => 'whatever' }
+        assert !c.value, 'Wrond de-serialization'
+        c.serializer.value_from_params c, { 'myname' => nil }
+        assert !c.value, 'Wrond de-serialization'
+        c.serializer.value_from_params c, {  }
+        assert !c.value, 'Wrond de-serialization'
+    end
+    def test_under_group_deserialization
+        
+        container = StHtml::Ruing::AbstractContainer.new "mycontainer"
+        c = StHtml::Ruing::Factory.get "check", "myname"
+        container.add c
+        
+        c.serializer.value_from_params c, { 'mycontainer.myname' => 'on' }
+        assert c.value, 'Wrond de-serialization'
+        
+        c.serializer.value_from_params c, { 'myname' => 'whatever' }
+        assert !c.value, 'Wrond de-serialization'
+        c.serializer.value_from_params c, { 'myname' => nil }
+        assert !c.value, 'Wrond de-serialization'
+        c.serializer.value_from_params c, {  }
+        assert !c.value, 'Wrond de-serialization'
+    end
+    
+    def test_copying
+        
+      c = StHtml::Ruing::Factory.get "check", \
+              "myname", \
+              :option1 => 'a', \
+              :renderer_options => { :option2 => 'b' }, \
+              :serializer_options => { :option3 => 'c' }
+      
+      cc = c.copy
+
+      assert_equal 'copy_of_myname', cc.name, 'Copy failed.'
+      assert_equal 'a', cc.options[:option1], 'Copy failed.'
+      assert_nil cc.options[:option2], 'Copy failed.'
+      assert_nil cc.options[:option3], 'Copy failed.'
+      assert_not_equal c.renderer.object_id, cc.renderer.object_id, 'Copy failed.'
+      assert_nil cc.renderer.options[:option1], 'Copy failed.'
+      assert_equal 'b', cc.renderer.options[:option2], 'Copy failed.'
+      assert_nil cc.renderer.options[:option3], 'Copy failed.'
+      assert_not_equal c.serializer.object_id, cc.serializer.object_id, 'Copy failed.'
+      assert_nil cc.serializer.options[:option1], 'Copy failed.'
+      assert_nil cc.serializer.options[:option2], 'Copy failed.'
+      assert_equal 'c', cc.serializer.options[:option3], 'Copy failed.'
+    end
+    
 end

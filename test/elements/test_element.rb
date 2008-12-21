@@ -40,4 +40,20 @@ module TestElement
     def test_render_not_editable
       assert false, "Please override this method(render_not_editable, #{self})"
     end
+    
+    def test_serializer_initialization
+      assert false, "Please override this method(serializer_initialization, #{self})"
+    end
+    
+    def test_deserialization
+      assert false, "Please override this method(deserialization, #{self})"
+    end
+    
+    def test_under_group_deserialization
+      assert false, "Please override this method(under_group_deserialization, #{self})"
+    end
+    
+    def test_copying
+      assert false, "Please override this method(copying, #{self})"
+    end
 end

@@ -112,7 +112,41 @@ class T02_TextField < Test::Unit::TestCase
         [%-id="myname"-, 
         %-id="myname">hello</div></div>-] ], 
           tf.renderer.render(tf, :editable => false ) )
-        
     end
+    
+    def test_serializer_initialization
+    
+      # Same as default_item
+    end
+
+    def test_deserialization
+        
+      # Same as default_item
+    end
+    def test_under_group_deserialization
+        
+      # Same as default_item
+    end
+    
+    def test_copying
+        
+      tf = StHtml::Ruing::Factory.get "text_field", \
+              "myname", \
+              :option1 => 'a', \
+              :renderer_options => { :option2 => 'b' }, \
+              :serializer_options => { :option3 => 'c' }
+      
+      tfc = tf.copy
+
+      # For options is the same of DefaultItem
+
+      assert_not_equal tf.renderer.object_id, tfc.renderer.object_id, 'Copy failed.'
+      assert_nil tfc.renderer.options[:option1], 'Copy failed.'
+      assert_equal 'b', tfc.renderer.options[:option2], 'Copy failed.'
+      assert_nil tfc.renderer.options[:option3], 'Copy failed.'
+      
+      # For serializer is the same of DefaultItem
+    end
+    
 end
 

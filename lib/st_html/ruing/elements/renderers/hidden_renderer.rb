@@ -35,6 +35,14 @@ class HiddenRenderer < DefaultItemRenderer
         }
     end
 
+    def copy
+        super { |options_|
+            HiddenRenderer.new options_.merge( \
+                        :builder => self.rb, \
+                        :ui_view => self.ui_view
+                    )
+        }
+    end
 
     def render_input x
 

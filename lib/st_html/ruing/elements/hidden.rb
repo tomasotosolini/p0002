@@ -44,6 +44,13 @@ class Hidden < DefaultItem
         super n, ho 
     end
 
+    def copy
+        
+        super { |options_|
+            
+            Hidden.new "copy_of_#{self.name}"
+        }
+    end
 end
 
 end

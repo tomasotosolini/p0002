@@ -32,6 +32,11 @@ class CheckSerializer < DefaultItemSerializer
         x.value= !sv.nil? && sv.eql?("on")
     end
 
+    def copy
+        super { |options_|
+            CheckSerializer.new options_
+        }
+    end
 end
 
 end

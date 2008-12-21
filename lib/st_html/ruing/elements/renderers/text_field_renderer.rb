@@ -23,6 +23,16 @@ module Renderers
                             
 class TextFieldRenderer < DefaultItemRenderer 
 
+
+    def copy
+        super { |options_|
+            TextFieldRenderer.new options_.merge( \
+                        :builder => self.rb, \
+                        :ui_view => self.ui_view
+                    )
+        }
+    end
+
     def render_input x
 
         return super { |element, attributes, ui_view, builder, irenderoptions|
@@ -30,9 +40,8 @@ class TextFieldRenderer < DefaultItemRenderer
             builder.input( attributes.merge( :type => :text, \
               :value => ui_view.render(element.value) ) ) 
         }
-
     end
-
+    
 end
     
 end

@@ -14,6 +14,8 @@
 # 
 
 require 'st_html/ruing/abstract_serializer'
+require 'st_html/ruing/copyable'
+
 
 module StHtml
 module Ruing
@@ -27,6 +29,16 @@ class DefaultItemSerializer < StHtml::Ruing::AbstractSerializer
         x.value= params[ x.input_id ]
     end
     
+    def copy
+        
+        rv = unless block_given? 
+            DefaultItemSerializer.new self.options
+        else
+            yield(self.options) || nil
+        end
+
+        rv
+    end
 end
     
 end

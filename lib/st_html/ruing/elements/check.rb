@@ -50,9 +50,22 @@ class Check < DefaultItem
         super n, co 
     end
 
+    
     def checked?
         return value.nil? ? false : value
     end
+
+    
+    def copy
+        
+        super { |options_|
+            
+            Check.new "copy_of_#{self.name}", \
+                    options_.merge(:renderer_options => self.renderer.options, \
+                    :serializer_options => self.serializer.options)
+        }
+    end
+    
 end
 
 end

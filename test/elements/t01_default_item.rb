@@ -175,7 +175,7 @@ class T01_DefaultItem < Test::Unit::TestCase
       # Factory has same behavior as demonstrated by elements/t00_factory
     end
 
-    def test_deseriaziation
+    def test_deserialization
         
         di = StHtml::Ruing::Factory.get "default_item", "myname"
         
@@ -185,7 +185,7 @@ class T01_DefaultItem < Test::Unit::TestCase
         di.serializer.value_from_params di, {  }
         assert_equal nil, di.value, 'Wrond de-serialization'
     end
-    def test_under_group_deseriaziation
+    def test_under_group_deserialization
         
         container = StHtml::Ruing::AbstractContainer.new "mycontainer"
         di = StHtml::Ruing::Factory.get "default_item", "myname"
@@ -196,6 +196,30 @@ class T01_DefaultItem < Test::Unit::TestCase
         
         di.serializer.value_from_params di, { 'myname' => 'value1' }
         assert_equal nil, di.value, 'Wrond de-serialization'
+    end
+    
+    def test_copying
+        
+      di = StHtml::Ruing::Factory.get "default_item", \
+              "myname", \
+              :option1 => 'a', \
+              :renderer_options => { :option2 => 'b' }, \
+              :serializer_options => { :option3 => 'c' }
+      
+      dic = di.copy
+
+      assert_equal 'copy_of_myname', dic.name, 'Copy failed.'
+      assert_equal 'a', dic.options[:option1], 'Copy failed.'
+      assert_nil dic.options[:option2], 'Copy failed.'
+      assert_nil dic.options[:option3], 'Copy failed.'
+      assert_not_equal di.renderer.object_id, dic.renderer.object_id, 'Copy failed.'
+      assert_nil dic.renderer.options[:option1], 'Copy failed.'
+      assert_equal 'b', dic.renderer.options[:option2], 'Copy failed.'
+      assert_nil dic.renderer.options[:option3], 'Copy failed.'
+      assert_not_equal di.serializer.object_id, dic.serializer.object_id, 'Copy failed.'
+      assert_nil dic.serializer.options[:option1], 'Copy failed.'
+      assert_nil dic.serializer.options[:option2], 'Copy failed.'
+      assert_equal 'c', dic.serializer.options[:option3], 'Copy failed.'
     end
     
 end

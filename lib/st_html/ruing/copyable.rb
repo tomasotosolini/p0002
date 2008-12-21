@@ -18,7 +18,6 @@ require 'st_html/ruing/ruing'
 
 module StHtml
 module Ruing
-module Elements
 
 module Copyable
 
@@ -32,6 +31,5 @@ module Copyable
     end
 end
 
-end
 end
 end

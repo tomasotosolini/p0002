@@ -25,7 +25,7 @@
 #require 'st/html/form3/serializers/item_serializer'
 
 require 'st_html/ruing/abstract_item'
-require 'st_html/ruing/elements/copyable'
+require 'st_html/ruing/copyable'
 require 'st_html/ruing/elements/renderers/default_item_renderer'
 
 
@@ -36,14 +36,17 @@ module Elements
 
 class DefaultItem < StHtml::Ruing::AbstractItem
 
-    include Copyable # This is to put items in Clones Container.
+    include StHtml::Ruing::Copyable 
 
     attr :validators, true 
     attr :renderer, true 
     attr :editor, true 
     attr :serializer, true 
-    attr :session, true 
 
+    attr :session, true 
+      #
+      # Will always be only a reference
+      
 
     def initialize n, *item_options
         
@@ -85,7 +88,7 @@ class DefaultItem < StHtml::Ruing::AbstractItem
 #        self.options.delete( :serializer )
 #        self.options.delete( :serializer_options )
 
-        @session = self.options[:session]
+        @session = self.options.delete :session
 
     end
 
@@ -99,19 +102,25 @@ class DefaultItem < StHtml::Ruing::AbstractItem
     def copy
         
         rv = unless block_given? 
-            DefaultItem.new nil, self.options
+            DefaultItem.new "copy_of_#{self.name}", \
+                    self.options.merge( \
+                        :renderer_options => @renderer.options, \
+                        :serializer_options => @serializer.options,
+                        :session => @session
+                    ) 
         else
             yield(self.options) || nil
         end
 
         unless rv.nil?
-            rv.name= self.name
-            rv.value = self.value
-            rv.validators= @validators.map { |x| x.copy }
-            rv.renderer= @renderer.copy
-            rv.serializer= @serializer.copy
-            rv.editor= @editor.copy
-            rv.session = @session
+            # If yield branch don't set up common things we do it here
+            rv.name= "copy_of_#{self.name}" unless rv.name 
+            rv.value= self.value unless rv.value 
+            rv.validators= @validators.map { |x| x.copy } unless rv.validators.size > 0 
+            rv.renderer= @renderer.copy unless @renderer.nil? || rv.renderer 
+            rv.serializer= @serializer.copy unless @serializer.nil? || rv.serializer
+            rv.editor= @editor.copy unless @editor.nil? || rv.editor
+            rv.session= @session unless @session.nil? || rv.session
         end
 
         rv

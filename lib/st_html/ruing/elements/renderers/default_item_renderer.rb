@@ -25,6 +25,7 @@
 #require 'st/html/form3/exceptions'
 
 require 'st_html/ruing/ruing'
+require 'st_html/ruing/copyable'
 require 'st_html/ruing/abstract_renderer'
 
 
@@ -35,6 +36,7 @@ module Renderers
                     
 class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
 
+    include StHtml::Ruing::Copyable
     
     attr :wrapper_attributes, true
     attr :attributes, true
@@ -84,6 +86,25 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
         rb.target!
     end
 
+    def copy
+        
+        rv = unless block_given? 
+            DefaultItemRenderer.new self.options.merge( \
+                        :builder => self.rb, \
+                        :ui_view => self.ui_view
+                    ) 
+        else
+            yield(self.options) || nil
+        end
+
+        unless rv.nil?
+            # If yield branch don't set up commo things we do it here
+            rv.rb= StHtml::Ruing::AbstractRenderer.get_builder(self.rb_options) unless self.rb.nil? || rv.rb
+            rv.ui_view= @ui_view.clone unless @ui_view.nil? || rv.ui_view
+        end
+
+        rv
+    end
 
     protected
 

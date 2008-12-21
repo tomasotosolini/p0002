@@ -99,4 +99,36 @@ class T03_Hidden < Test::Unit::TestCase
         # It's hidden honey!
     end
     
+    def test_serializer_initialization
+    
+      # Same as default_item
+    end
+
+    def test_deserialization
+        
+      # Same as default_item
+    end
+    def test_under_group_deserialization
+        
+      # Same as default_item
+    end
+    
+    def test_copying
+        
+      h = StHtml::Ruing::Factory.get "hidden", \
+              "myname", \
+              :option1 => 'a', \
+              :renderer_options => { :option2 => 'b' }, \
+              :serializer_options => { :option3 => 'c' }
+      
+      hc = h.copy
+
+      # For options is the same of DefaultItem
+
+      # For options is more restricted then default because forces a fixed "renderer"
+
+      # For serializer is the same of DefaultItem
+
+    end
+    
 end

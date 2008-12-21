@@ -60,6 +60,15 @@ class TextField < DefaultItem
         
         super n, tfo 
     end
+    
+    def copy
+        
+        super { |options_|
+            
+            TextField.new "copy_of_#{self.name}", \
+                    options_.merge(:renderer_options => self.renderer.options)
+        }
+    end
 
 end
     

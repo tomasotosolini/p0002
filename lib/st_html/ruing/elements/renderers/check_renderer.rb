@@ -25,6 +25,15 @@ module Renderers
 class CheckRenderer < DefaultItemRenderer 
 
     
+    def copy
+        super { |options_|
+            CheckRenderer.new options_.merge( \
+                        :builder => self.rb, \
+                        :ui_view => self.ui_view
+                    )
+        }
+    end
+    
     def render_input x
 
         return super { |element, attributes, ui_view, builder, irenderoptions|

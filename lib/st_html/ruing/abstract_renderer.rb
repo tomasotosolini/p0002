@@ -164,9 +164,13 @@ class AbstractRenderer
     attr :rb, true 
       #
       # rbuilder 
+    attr :rb_options
+      #
+      # used only fot the copy constuctor
 
     def AbstractRenderer.get_builder *builder_options 
-        Builder::XmlMarkup.new( { :indent => 4 }.merge(extract_va_options( builder_options )) )
+        @rb_options = extract_va_options( builder_options )
+        Builder::XmlMarkup.new( { :indent => 4 }.merge(@rb_options) )
     end
 
     # resolution order for rendering options most important come later
