@@ -52,3 +52,14 @@ to validate:
 to show the report:
 
     register_form.render_
+
+--
+
+NOTE: The project status in this moment is still a little undefined, because
+my current may goal is to import the various components from the original
+private gem, currently used for inspiration.
+So if while reading some file of the project, you find it difficult to understand
+its meaning or you find that has no meaning, please don't give up, probably
+it hasn't still reviewed and corrected (or removed).
+
+Thanks
