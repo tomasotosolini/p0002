@@ -27,6 +27,7 @@
 require 'st_html/ruing/abstract_item'
 require 'st_html/ruing/copyable'
 require 'st_html/ruing/elements/renderers/default_item_renderer'
+require 'st_html/ruing/elements/serializers/default_item_serializer'
 
 
 module StHtml
@@ -40,8 +41,8 @@ class DefaultItem < StHtml::Ruing::AbstractItem
 
     attr :validators, true 
     attr :renderer, true 
-    attr :editor, true 
     attr :serializer, true 
+    attr :editor, true 
 
     attr :session, true 
       #
@@ -73,20 +74,17 @@ class DefaultItem < StHtml::Ruing::AbstractItem
         #
         self.options[:render] = {} unless self.options[:render]
         self.options[:force][:render] = {} unless self.options[:force][:render]
-        #
-        # Serilization doesn't require default for now
-        #
         
         #
         # Let's clean out options that are saved elsewhere.
         #
-#        self.options.delete( :validators )
-
+        self.options.delete :validators 
+        
         self.options.delete :renderer 
         self.options.delete :renderer_options 
 
-#        self.options.delete( :serializer )
-#        self.options.delete( :serializer_options )
+        self.options.delete :serializer 
+        self.options.delete :serializer_options 
 
         @session = self.options.delete :session
 
