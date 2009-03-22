@@ -49,9 +49,12 @@ class DefaultItemRenderer < StHtml::Ruing::AbstractRenderer
         
         @wrapper_attributes = nil
         @attributes = nil
+        
+        #
+        # ui_view can be come with the renderer_options
+        #
         @ui_view = options.delete :ui_view
-          #
-          # ui_view can be come with the renderer_options
+          
     end
     
     def render x, *render_options
