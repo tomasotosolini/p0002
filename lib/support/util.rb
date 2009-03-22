@@ -16,7 +16,7 @@
 module Kernel
     
     # 
-    # Extract from the variable pert of the parameters an hash or an array
+    # Extract from the variable part of the parameters an hash or an array
     # depending on what king of variable parameters are passed.
     # The result can be both used directly both passed as variable arg to 
     # other methods.
@@ -26,7 +26,8 @@ module Kernel
         if va_list.size.eql?(0) then
           want_hash ? {} : []
         else
-          va_list[0].is_a?(Hash) ? va_list[0] : va_list
+          return va_list[0] if va_list[0].is_a?(Hash) && va_list.size.eql?(1)
+          va_list
         end
     end
     
