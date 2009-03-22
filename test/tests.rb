@@ -31,19 +31,15 @@ require 'test/t03_vararg'
 require 'test/t04_abstract_renderer'
 require 'test/t05_abstract_validator'
 
-  # layout
-require 'test/layout/t01_border_layout'
-require 'test/layout/t02_flow_layout'
-
-
   # items, container
 require 'test/t06_abstract_item'
 require 'test/t07_abstract_container'
 
-
   # items, container
-require 'test/elements/t00_factory'
-require 'test/elements/t01_default_item'
-require 'test/elements/t02_text_field'
-require 'test/elements/t03_hidden'
-require 'test/elements/t04_check'
+require 'test/elements/tests'
+
+  # layout ( this tests make sense only when there is a container: 
+  # cfr. st_html/ruing/layout_manager.rb and 
+  # st_html/ruing/elements/layout_manager.rb )
+require 'test/layout/tests'
+
