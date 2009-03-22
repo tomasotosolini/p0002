@@ -21,7 +21,7 @@ require 'st_html/ruing/containers/behaviors'
 module StHtml
 module Ruing
 
-class AbstractContainer < AbstractItem
+module AbstractContainer 
 
     #
     # Setting :transparent => true makes this container act as a simple rendering 
