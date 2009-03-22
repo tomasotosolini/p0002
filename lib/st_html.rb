@@ -21,3 +21,10 @@ module StHtml
   class Exception < Exception; end
   
 end
+
+module Kernel
+
+    def st_html_exception
+       StHtml::Exception 
+    end
+end
