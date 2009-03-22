@@ -32,7 +32,7 @@ module Contained
     def Contained.extend_object contained
 
         raise StHtml::Ruing::Exception, \
-              'Extended element must respong to input_id.' \
+              'Extended element must respond to input_id.' \
               unless contained.respond_to?(:input_id) 
       
         return  if contained.respond_to?(:item_input_id) 
